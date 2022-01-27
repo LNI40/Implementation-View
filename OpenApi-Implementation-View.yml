@@ -1,0 +1,86 @@
+openapi: "3.0.0"
+info:
+  version: 0.1.0
+  title: Implementation View
+servers:
+  - url: http://url/v1
+
+tags:
+  - name: Discovery Service
+    description: Discovery and Directory Service
+  - name: Parameter Handling 
+    description: tbd    
+
+paths:
+  /assets:
+    get:
+      summary: retrieve current asset directory content
+      operationId: listAssets
+      tags:
+        - Discovery Service
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: A paged array of asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Assets"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: register a notification
+      operationId: registerNotification
+      tags:
+        - Discovery Service
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Asset:
+      type: object
+      required:
+        - id
+        - Model
+      properties:
+        DeviceClass:
+          type: string
+        Manufacturer:
+          type: string
+        Model:
+          type: string
+        ProductCode:
+          type: string
+    Assets:
+      type: array
+      items:
+        $ref: "#/components/schemas/Asset"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
