@@ -14,27 +14,99 @@ tags:
     description: tbd    
 
 paths:
-  /deviceId/assets:
+  /assets:
     get:
       summary: retrieve current asset directory content
       operationId: listAssets
       tags:
         - Discovery Service
-      parameters:
-        - name: limit
-          in: query
-          description: How many items to return at one time (max 100)
-          required: false
-          schema:
-            type: integer
-            format: int32
+      parameters:        
+      - name: authorization
+        in: header
+        description: Access token / Key token
+        required: true
+        schema:
+          type: string
+      - name: organisationId
+        in: query
+        description: The id property defines the unique id of type integer
+        required: true
+        schema:
+          minimum: 1
+          type: integer
+      - name: deviceType
+        in: query
+        description: Device types
+        schema:
+          type: string
+          enum:
+          - standard
+          - sensorEDGE
+      - name: page
+        in: query
+        description: min(1), null and empty values are not allowed
+        schema:
+          minimum: 1
+          type: integer
+          default: 1
+      - name: limit
+        in: query
+        description: min(1) / max is set by config pageEntries, null and empty values
+          are not allowed
+        schema:
+          maximum: 5000
+          minimum: 1
+          type: integer
+          default: 10
+      - name: sortBy
+        in: query
+        description: Sort by "name" or other resource property, null not allowed
+        schema:
+          type: string
+          default: id
+      - name: sortOrder
+        in: query
+        description: valid - "asc" and "desc", null and empty string not allowed
+        schema:
+          type: string
+          default: asc
+          enum:
+          - asc
+          - desc
       responses:
         '200':
-          description: A paged array of asset
+          description: A paged array of assets
           content:
             application/json:    
               schema:
                 $ref: "#/components/schemas/Assets"
+              examples:
+                fieldDevice:
+                  value:
+                    DeviceClass: fieldDevice
+                    Manufacturer: Murrelektronik GmbH
+                    Model: IO-Link Master
+                    ProductCode: PROD-123456
+                    HardwareRevision: 1.0
+                    SoftwareRevision: 2.0.1
+                    SerialNumber: DE987654321
+                    ProductInstanceUri: "https://murrelektronik.com/IOLM/PROD-123456/DE987654321"
+                edgeDevice:
+                  value:  
+                    DeviceClass: edgeDevice                  
+                    Manufacturer: Vendor GmbH
+                    ProductCode: EG-123456789
+                    Model: Edge Gateway
+                    HardwareRevision: 1.2
+                    SoftwareRevision: 3.2.1
+                    SerialNumber: DE987654321                    
+                edgeApp:
+                  value:  
+                    DeviceClass: edgeApp                  
+                    Manufacturer: Vendor GmbH
+                    Model: Asset Management                    
+                    ProductCode: PROD-123456
+                    SoftwareRevision: 1.0.0                      
         default:
           description: unexpected error
           content:
@@ -92,17 +164,60 @@ components:
     Asset:
       type: object
       required:
-        - id
-        - Model
+        - DeviceClass
+        - Manufacturer
+        - ManufacturerUri                  
+        - Model                  
+        - ProductCode                    
+        - productInstanceUri
+        - onBoardedAt
       properties:
-        DeviceClass:
+        DeviceClass:          # identifies the asset type
           type: string
-        Manufacturer:
+          enum:
+           - edgeApp
+           - edgeDevice
+           - fieldDevice
+        Manufacturer:         # vendorName
           type: string
-        Model:
+        ManufacturerUri:      # vendorUrl
+          type: string                    
+        Model:                # productName
+          type: string                    
+        ProductCode:          # productId
           type: string
-        ProductCode:
+        HardwareRevision:     # hardwareRevision
           type: string
+        SoftwareRevision:     # softwareRevision
+          type: string
+        SerialNumber:         # serialNumber
+          type: string   
+        ProductInstanceUri:   # AssetId
+          type: string  
+        ManualUrl:            # Link to manual
+          type: string                     
+        sysName:              # DNS HostName, SNMP: sysName, PROFINET: nameOfStation, IO-Link: deviceAlias
+          type: string                    
+        sysLocation:          # description of the hosts's location (i.e. an address).
+          type: string  
+        sysContact:           # contact data of the responsible person or organization (i.e. an email address).
+          type: string 
+        onBoardedAt:          # date/time when the asset has first appeared.
+          type: string
+          description: onBoardedAt
+          format: date-time          
+        geolocation:          # physical location of the assset.
+          required:
+          - latitude
+          - longitude
+          type: object
+          properties:
+            longitude:
+              type: string
+            latitude:
+              type: string
+
+
     Assets:
       type: array
       items:
@@ -118,3 +233,5 @@ components:
           format: int32
         message:
           type: string
+          
+          
