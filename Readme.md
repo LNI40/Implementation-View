@@ -1,6 +1,14 @@
 # LNI4.0 Implementation View
 
-OpenAPI specification for an edge management REST API
+![image](https://user-images.githubusercontent.com/50681355/154436133-46863aa5-661c-4008-aa35-6d871edc52ab.png)
+
+OpenAPI specification for an edge management REST API:
+The basic idea is to specify system interfaces between the entities within the edge architecture by analyzing the interactions in the Functional View document.
+Creating formal interface specifications using well-known standards like openAPI and asyncApi will allow automatic testcase creation and the use of a wide range of tools for the testbed.
+We do not want to re-invent the wheel: Participants may come forward with already existing solutions and we may adopt them as much as possible!
+
+![image](https://user-images.githubusercontent.com/50681355/154436060-e9fbaec2-91dc-4147-871c-0fe99572b62b.png)
+
 
 ## OpenAPI
 
