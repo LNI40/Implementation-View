@@ -1,15 +1,15 @@
 openapi: "3.0.0"
 info:
   version: 0.1.0
-  title: Edge Management Implementation View
+  title: Implementation View
 servers:
   - url: http://url/v1
 
 tags:
   - name: Discovery Service
     description: Discovery and Directory Service
-  - name: Device Management
-    description: Manage Devices in the edge management system directory
+  - name: Edge Asset Management
+    description: Manage assets (i.e. devices, applications) in the edge management system directory
   - name: Parameter Handling 
     description: tbd    
 
@@ -55,12 +55,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /registerAsset:
+  /assets/register:
     post:
-      summary: register a device to a tenant or organisation within the edge management system
-      operationId: registerdevice
+      summary: register a asset to a tenant or organisation within the edge management system.     
+      description: related to Functional View "5.1.1.2	Edge Device Detection". When an asset is detected, the EMS is informed. This command allows to register the asset. 
+      operationId: assetsregister
       tags:
-        - Device Management
+        - Edge Asset Management
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /apps/deploy:
+    post:
+      summary: deploy an application to an edge device within the edge management system.     
+      description: related to Functional View "???".  
+      operationId: appregister
+      tags:
+        - Edge Asset Management
       responses:
         '201':
           description: Null response
