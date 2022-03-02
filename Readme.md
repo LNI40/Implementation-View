@@ -1,3 +1,13 @@
+
+# LNI4.0 Business View
+https://lni40.de/lni40-content/uploads/2021/03/BusinessView-LNI_Testbed-Edge-Management_V2.0.pdf
+
+# LNI4.0 Usage View
+http://lni40.de/lni40-content/uploads/2020/04/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
+
+# LNI4.0 Functional View
+draft, not released yet. 
+
 # LNI4.0 Implementation View
 
 ![image](https://user-images.githubusercontent.com/50681355/154436133-46863aa5-661c-4008-aa35-6d871edc52ab.png)
