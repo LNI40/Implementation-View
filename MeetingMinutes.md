@@ -55,7 +55,7 @@
 -	Next Meeting: **03.03.2022, 13:00-15:00**
 
 ---
-## 02.12.2021 - 1. Sitzung (Online)
+## 02.12.2021 - 1. Sitzung (online)
 ###	Participants
 1.	Balluff (Markus Rentschler, Benjamin Vervoort, Dr. Markus Jung)
 2.	LNI 4.0 (Anja Simon)
@@ -73,7 +73,7 @@ https://owncloud.fraunhofer.de/index.php/apps/files/?dir=/LNI%204.0/Edge%20Manag
 +	Next Meeting: **17.02.2022, 10:00-12:00**, Invitation issued in January
 
 ---
-## 14.10.2021 - Kickoff (Online)
+## 14.10.2021 - Kickoff (Onsite Hattersheim + Online)
 +	Vorstellung Zielsetzung WG  Implementation View
 +	Vorstellung der Testbed-Partner: Telekom, Schmersal, Soffico, Hilscher, Wittenstein, Siemens, FOKUS
 +	Diskussion auf Grundlage “ImplementationView-Testbed Edge Configuration_v0.x.docx”:
