@@ -1,17 +1,18 @@
 openapi: "3.0.0"
 info:
   version: 0.1.0
-  title: Implementation View
+  title: LNI 4.0 Testbd Edge Management Implementation View
 servers:
   - url: http://url/v1
 
 tags:
-  - name: Discovery Service
-    description: Discovery and Directory Service
   - name: Edge Asset Management
     description: Manage assets (i.e. devices, applications) in the edge management system directory
   - name: Parameter Handling 
-    description: tbd    
+    description: (Functional View, ch. 5.4.2) 
+  - name: Deployment Functions
+    description: (Functional View, ch. 5.4.3) The Deployment of entities (applications) encompasses the initial installation and configuration of the application in question. The deployment of applications has to set a lot of parameters to ensure the correct running of the application in question. Application deployment functions are in place to guaran-tee the successful setting of these working parameters and for setting up the application environment.
+
 
 paths:
   /assets:
@@ -19,7 +20,7 @@ paths:
       summary: retrieve current asset directory content
       operationId: listAssets
       tags:
-        - Discovery Service
+        - Edge Asset Management
       parameters:        
       - name: authorization
         in: header
@@ -91,6 +92,10 @@ paths:
                     SoftwareRevision: 2.0.1
                     SerialNumber: DE987654321
                     ProductInstanceUri: "https://murrelektronik.com/IOLM/PROD-123456/DE987654321"
+                    applicationSpecificTag: "***"
+                    shortDescription: "This is the world best IO-Link-Master ;-)"
+                    geolocation:
+                    sysUpTime:
                 edgeDevice:
                   value:  
                     DeviceClass: edgeDevice                  
@@ -117,7 +122,7 @@ paths:
       summary: register a notification
       operationId: registerNotification
       tags:
-        - Discovery Service
+        - Edge Asset Management
       responses:
         '201':
           description: Null response
