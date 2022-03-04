@@ -6,7 +6,7 @@ https://lni40.de/lni40-content/uploads/2021/03/BusinessView-LNI_Testbed-Edge-Man
 http://lni40.de/lni40-content/uploads/2020/04/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
 
 # LNI4.0 Functional View
-draft, not released yet. 
+https://github.com/LNI40/Implementation-View/blob/main/FunctionalView-TestbedEdgeConfiguration_V8.4.pdf (Draft, not released yet.)
 
 # LNI4.0 Implementation View
 
