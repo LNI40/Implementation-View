@@ -1,6 +1,30 @@
  
 # Protokoll (fortlaufend)
 ---
+## 04.04.2022 - 4. Sitzung (online)
+### Participants
+![image](https://user-images.githubusercontent.com/50681355/161507788-9f812a42-a9ad-4695-b51d-cc5188dd34d6.png)
+###	Topics
+-	MOU LNI40 and OI4A with implications for Application handling/management?
+-	openApi-Spec reviewen: https://github.com/LNI40/Implementation-View/blob/main/OpenApi-Implementation-View.yml  
+-	B.Fiebiger:  Feedback aus IDTA-WG vom 04.03. AssetInterfaces-Submodel-template bzgl. WoT-Datenmodell.
+
+### Results
+-	Ergebnisse siehe Github
+-	Functional View als PDF im Draft-Status abgelegt
+
+###	ToDos:
+-	M.Rentschler: Am 8.4. aktuellen Stand vorstellen
+-	M.Schmierer: Aktualisierung der UAG-ergebnisse
+
+###	Next Meeting: 
+-	ImplementationView: Aktuelle Ergänzungen der LNI-Edge-UAGs reviewen
+-	Review YAML file.
+-	Review existing documents, especially the Functional View Sequence diagrams
+-	Specification of Interface Definitions mapped to the Sequence Diagrams
+-	Next Meeting: **09.05.2022, 10:00-11:30**
+
+---
 ## 03.03.2022 - 3. Sitzung (online)
 ### Participants
 ![image](https://user-images.githubusercontent.com/50681355/156571568-9f4a8f98-800f-4126-825a-f61fcc74beb8.png)
