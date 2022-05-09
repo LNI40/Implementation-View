@@ -1,6 +1,34 @@
  
 # Protokoll (fortlaufend)
 ---
+## 09.05.2022 - 5. Sitzung (online)
+### Participants
+![image](https://user-images.githubusercontent.com/50681355/167371304-7d1ec7b9-9d02-4e50-b9b4-39cb938d7436.png)
+
+###	Topics
+-	MOU LNI40 and OI4A?
+-	openApi-Spec reviewen: https://github.com/LNI40/Implementation-View/blob/main/OpenApi-Implementation-View.yml  
+-	J. Uffelmann has raised interest in participation
+-	Open-Source Lizenz für Arbeitsergebnisse? --> MIT-Lizenz!
+-	Disclaimer muss formuliert werden! --> WG erzeugt keine IP, keinen ablauffähigen Code, nur Spezifikationsdokumente, frei verfügbar für alle, Benutzung auf eigenes Risiko, keine Haftung, keine Gewährleistung, keine Regressansprüche.
+
+### Results
+-	Ergebnisse siehe Github
+
+###	ToDos:
+-	J.Uffelmann: Seinen Kollegen einweisen, ifm-API-Spec zusenden.
+-	M.Schmierer: Aktualisierung der UAG-ergebnisse
+-	M.Rentschler: Disclaimer formulieren!
+-	Alle: Bitte Eure mechanischen Gerätespezifikationen A.Gatterburg zukommen lassen für das Plugfest am 6.7.
+
+###	Next Meeting: 
+-	ImplementationView: Aktuelle Ergänzungen der LNI-Edge-UAGs reviewen
+-	Review YAML file.
+-	Review existing documents, especially the Functional View Sequence diagrams
+-	Specification of Interface Definitions mapped to the Sequence Diagrams
+-	Next Meeting: **Mi, 08.06.2022, 13:00-14:30**
+
+---
 ## 04.04.2022 - 4. Sitzung (online)
 ### Participants
 ![image](https://user-images.githubusercontent.com/50681355/161507788-9f812a42-a9ad-4695-b51d-cc5188dd34d6.png)
