@@ -39,18 +39,13 @@ API specifications can be written in YAML or JSON. The format is easy to learn a
 - Online Editor: https://editor.swagger.io/
 - Offline Editor: [Visual Studio Code](#https://code.visualstudio.com/ ) + [OpenAPI (Swagger) Editor](#https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) (recommended)
 
-### Workflow
+### Legal Disclaimer
 
-GitHub is a provider of Internet hosting for software development and version control using Git. Git is great tool for tracking changes in any set of files. This way, a file can easily always be overwritten and you can always jump back to an older state or track all changes. A main feature of git are branches, effectively a pointer to a snapshot of your changes. When you want to add a new feature or fix a bug—no matter how big or how small—you spawn a new branch to encapsulate your changes. After you finished your changes, you can merge your branch into the main branch (Pull Request).
+Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions:
 
-**short**: 
-- create featureBranch
-- push your Changes to your feature branch
-- create a pull request to merge your feature branch in the main branch 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
 
-All these steps can also be done via the github web interface.
-- [create new Branch](#https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/making-changes-in-a-branch/managing-branches#creating-a-branch)
-- [changing files](#https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository)
-- [create pull request](#https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
+
 
 
