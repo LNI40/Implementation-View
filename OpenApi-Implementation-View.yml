@@ -1,7 +1,16 @@
 openapi: "3.0.0"
 info:
   version: 0.1.0
-  title: LNI 4.0 Testbd Edge Management Implementation View
+  title: LNI 4.0 Testbed Edge Management Implementation View
+  
+  description: >-
+    ## Legal Disclaimer 
+    
+    ### © Copyright 2021  Labs Network Industrie 4.0
+    
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions.
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
+    THIS SPECIFICATION IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SPECIFICATION OR THE USE OR OTHER DEALINGS IN THE SPECIFICATION.
 servers:
   - url: http://url/v1
 
@@ -11,7 +20,7 @@ tags:
   - name: Parameter Handling 
     description: (Functional View, ch. 5.4.2) 
   - name: Deployment Functions
-    description: (Functional View, ch. 5.4.3) The Deployment of entities (applications) encompasses the initial installation and configuration of the application in question. The deployment of applications has to set a lot of parameters to ensure the correct running of the application in question. Application deployment functions are in place to guaran-tee the successful setting of these working parameters and for setting up the application environment.
+    description: (Functional View, ch. 5.4.3) The Deployment of entities (applications) encompasses the initial installation and configuration of the application in question.
 
 
 paths:
@@ -85,13 +94,13 @@ paths:
                 fieldDevice:
                   value:
                     DeviceClass: fieldDevice
-                    Manufacturer: Murrelektronik GmbH
-                    Model: IO-Link Master
-                    ProductCode: PROD-123456
+                    Manufacturer: Murrelektronik
+                    Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
+                    ProductCode: 55510
                     HardwareRevision: 1.0
                     SoftwareRevision: 2.0.1
                     SerialNumber: DE987654321
-                    ProductInstanceUri: "https://murrelektronik.com/IOLM/PROD-123456/DE987654321"
+                    ProductInstanceUri: "https://shop.murrelektronik.com/55510/"
                     applicationSpecificTag: "***"
                     shortDescription: "This is the world best IO-Link-Master ;-)"
                     geolocation:
@@ -99,7 +108,7 @@ paths:
                 edgeDevice:
                   value:  
                     DeviceClass: edgeDevice                  
-                    Manufacturer: Vendor GmbH
+                    Manufacturer: EdgeVendor GmbH
                     ProductCode: EG-123456789
                     Model: Edge Gateway
                     HardwareRevision: 1.2
@@ -108,7 +117,7 @@ paths:
                 edgeApp:
                   value:  
                     DeviceClass: edgeApp                  
-                    Manufacturer: Vendor GmbH
+                    Manufacturer: AppVendor Inc
                     Model: Asset Management                    
                     ProductCode: PROD-123456
                     SoftwareRevision: 1.0.0                      
@@ -135,7 +144,7 @@ paths:
   /assets/register:
     post:
       summary: register a asset to a tenant or organisation within the edge management system.     
-      description: related to Functional View "5.1.1.2	Edge Device Detection". When an asset is detected, the EMS is informed. This command allows to register the asset. 
+      description: related to Functional View "5.1.1.2  Edge Device Detection". When an asset is detected, the EMS is informed. This command allows to register the asset. 
       operationId: assetsregister
       tags:
         - Edge Asset Management
@@ -238,5 +247,3 @@ components:
           format: int32
         message:
           type: string
-          
-          
