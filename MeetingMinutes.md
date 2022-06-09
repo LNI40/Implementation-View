@@ -1,6 +1,29 @@
  
 # Protokoll (fortlaufend)
 ---
+## 08.06.2022 - 6. Sitzung (online)
+### Participants
+1.	Murrelektronik (Markus Rentschler, Jochen Siegle, Xuan-Thuy Dang)
+2.	LNI 4.0 (Anja Simon)
+3.	Hilscher (A.Gatterburg)
+4.	Schmersal (Volker Heinzer)
+5.	Siemens (Philipp Hess)
+6.	Wittenstein (Fabian Zankl)
+
+###	Topics
+-	MOU LNI40 and OI4A kurz vor Finalisierung, informeller techniscker Kickoff während des Plugfests am 6.7.?
+-	Legal Disclaimer/Open-Source Lizenz mit Copyright-Vermerkin YAML inkludiert
+
+### Results
+-	Ergebnisse siehe Github
+
+###	ToDos:
+-	Alle: Bitte Eure mechanischen Gerätespezifikationen A.Gatterburg zukommen lassen für das Plugfest am 6.7.
+
+###	Next Meeting: 
+-       **Mi, 06.07.2022, 13:00-14:30**
+
+---
 ## 09.05.2022 - 5. Sitzung (online)
 ### Participants
 ![image](https://user-images.githubusercontent.com/50681355/167371304-7d1ec7b9-9d02-4e50-b9b4-39cb938d7436.png)
