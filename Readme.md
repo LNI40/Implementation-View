@@ -40,7 +40,7 @@ API specifications can be written in YAML or JSON. The format is easy to learn a
 - Offline Editor: [Visual Studio Code](#https://code.visualstudio.com/ ) + [OpenAPI (Swagger) Editor](#https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) (recommended)
 
 ### Legal Disclaimer
-
+#### © Copyright 2021  Labs Network Industrie 4.0
 Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
