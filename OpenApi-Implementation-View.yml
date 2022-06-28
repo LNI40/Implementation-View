@@ -173,6 +173,85 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /api:
+    get:
+      summary: retrieve api information of a single addressed asset
+      operationId: getAPI
+      tags:
+        - Edge Asset Management
+      responses:
+        '200':
+          description: returns the interface specification of the addressed asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Assets"
+              examples:
+                fieldDevice:
+                  value:
+
+                edgeDevice:
+                  value:  
+                   
+                edgeApp:
+                  value:  
+                  
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                  
+  /identity:
+    get:
+      summary: retrieve identity of a single addressed asset
+      operationId: getIdentity
+      tags:
+        - Edge Asset Management
+      responses:
+        '200':
+          description: returns the identification nameplate of the addressed asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Assets"
+              examples:
+                fieldDevice:
+                  value:
+                    DeviceClass: fieldDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
+                    ProductCode: 55510
+                    HardwareRevision: 1.0
+                    SoftwareRevision: 2.0.1
+                    SerialNumber: DE987654321
+                    ProductInstanceUri: "https://shop.murrelektronik.com/55510/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "This is the world best IO-Link-Master ;-)"
+                    geolocation:
+                    sysUpTime:
+                edgeDevice:
+                  value:  
+                    DeviceClass: edgeDevice                  
+                    Manufacturer: EdgeVendor GmbH
+                    ProductCode: EG-123456789
+                    Model: Edge Gateway
+                    HardwareRevision: 1.2
+                    SoftwareRevision: 3.2.1
+                    SerialNumber: DE987654321                    
+                edgeApp:
+                  value:  
+                    DeviceClass: edgeApp                  
+                    Manufacturer: AppVendor Inc
+                    Model: Asset Management                    
+                    ProductCode: PROD-123456
+                    SoftwareRevision: 1.0.0                      
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                
 components:
   schemas:
     Asset:
