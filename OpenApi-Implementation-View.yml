@@ -129,7 +129,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+    post:
+      summary: register a notification
+      operationId: registerNotification
+      tags:
+        - Edge Asset Management
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
   /assets/register:
     post:
       summary: register a asset to a tenant or organisation within the edge management system.     
@@ -173,8 +187,6 @@ paths:
           description: returns the interface specification of the addressed asset
           content:
             application/json:    
-              schema:
-                $ref: "#/components/schemas/Assets"
               examples:
                 fieldDevice:
                   value:
@@ -203,7 +215,7 @@ paths:
           content:
             application/json:    
               schema:
-                $ref: "#/components/schemas/Assets"
+                $ref: "#/components/schemas/AssetIdentification"
               examples:
                 fieldDevice:
                   value:
@@ -243,7 +255,7 @@ paths:
                 $ref: "#/components/schemas/Error"                
 components:
   schemas:
-    Asset:
+    AssetIdentification:
       type: object
       required:
         - DeviceClass
@@ -299,11 +311,11 @@ components:
             latitude:
               type: string
 
-
     Assets:
       type: array
       items:
-        $ref: "#/components/schemas/Asset"
+        $ref: "#/components/schemas/AssetIdentification"
+        
     Error:
       type: object
       required:
