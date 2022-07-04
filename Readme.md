@@ -19,6 +19,8 @@ We do not want to re-invent the wheel: Participants may come forward with alread
 
 ![image](https://user-images.githubusercontent.com/50681355/154436060-e9fbaec2-91dc-4147-871c-0fe99572b62b.png)
 
+View current state in Swagger-Editor:
+[http://editor.swagger.io/open?url=https://github.com/LNI40/Implementation-View/blob/main/OpenApi-Implementation-View.yml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/LNI40/Implementation-View/main/OpenApi-Implementation-View.yml)
 
 ## OpenAPI
 
