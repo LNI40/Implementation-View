@@ -12,7 +12,7 @@ info:
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
     THIS SPECIFICATION IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SPECIFICATION OR THE USE OR OTHER DEALINGS IN THE SPECIFICATION.
 servers:
-  - url: http://url/v1
+  - url: http://url/
 
 tags:
   - name: Edge Asset Management
@@ -176,15 +176,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /api:
+  /tree:
     get:
-      summary: retrieve api information of a single addressed asset
+      summary: retrieve structural and api information of a single addressed asset
       operationId: getAPI
       tags:
         - Asset Management
       responses:
         '200':
-          description: returns the interface specification of the addressed asset
+          description: returns the structural interface specification of the addressed asset
           content:
             application/json:    
               examples:
@@ -252,7 +252,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"                
+                $ref: "#/components/schemas/Error"    
+  /picture:
+    get:
+      summary: retrieve picture image of a single addressed asset
+      operationId: getImage
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          description: returns an image of the addressed asset
+          content:
+              application/png:
+                schema: 
+                  type: string
+                  format: binary                   
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                            
 components:
   schemas:
     AssetIdentification:
