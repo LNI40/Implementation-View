@@ -11,10 +11,20 @@ info:
     Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions.
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
     THIS SPECIFICATION IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SPECIFICATION OR THE USE OR OTHER DEALINGS IN THE SPECIFICATION.
+
 servers:
-  - url: http://url/
+  - url: '{scheme}://url'
+    variables:
+      scheme:
+        description: 'The API might be available over https and/or http'
+        enum:
+          - 'https'
+          - 'http'
+        default: 'http'  
 
 tags:
+  - name: General
+    description: Access to general informations
   - name: Edge Asset Management
     description: Manage assets (i.e. devices, applications) in the edge management system directory
   - name: Asset Management
@@ -26,6 +36,108 @@ tags:
 
 
 paths:
+  '/login':
+    get:
+      tags:
+        - General
+      summary: Returns the login status of the user
+      description: >-
+        Returns the login status of the user as a boolean value
+      operationId: getUsersLogin
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  isLoggedIn:
+                    type: boolean
+                  userRole:
+                    type: string
+                    description: 'Is true in case of a valid user, that is logged in.'
+              example:
+                isLoggedIn: true
+                userRole: 'Operator'                    
+    post:
+      tags:
+        - General
+      summary: Logs in with credentials and returns the session bearer token.
+      description: >-
+         Credentials based authentication - Depending on technical feasibility, the HTTP cookie header shall be used. If the backend does not support cookies, the session bearer token shall be sent in the JSON body. The client has to support both mechanisms.
+      operationId: postUsersLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              example:
+                username: fred
+                password: '12345678'
+      security: []
+      responses:
+        '200':
+          description: >
+            Successfully authenticated. <br><br> The set cookie header is only
+            sent if the server supports HTTP cookies. Otherwise, the session ID
+            is also sent in the JSON body.
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: SESSIONID=abcde12345; Path=/; HttpOnly; Secure;
+          content:
+            application/json:
+              schema:
+                required:
+                  - userRole
+                properties:
+                  SESSIONID:
+                    type: string
+                  userRole:
+                    type: string
+                    enum:
+                        - Operator
+                        - Maintenance
+                        - Specialist
+              examples:
+                without cookie handling:
+                 value:
+                  SESSIONID: abc123abc123
+                  userRole: Maintenance
+                with cookie handling:
+                 value:
+                  userRole: Maintenance                   
+
+  '/logout':
+    post:
+      tags:
+        - General
+      summary: Logs out and invalidates the session token.
+      description: >-
+        This command does not discern between a logged out or a logged in user.
+      operationId: postUsersLogout
+      responses:
+        '204':
+          description: |
+            Successfully logged out. Session-Token is now invalid.
+        '401':
+          description: |
+            Session-Token invalid or not found. No action.
+          content:
+            application/json:
+              example:
+                code: 141
+                message: 'Unknown SESSIONID'
   /assets:
     get:
       summary: retrieve current asset directory content
