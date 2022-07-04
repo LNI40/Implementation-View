@@ -263,7 +263,7 @@ paths:
         '200':
           description: returns an image of the addressed asset
           content:
-              application/png:
+              image/png:
                 schema: 
                   type: string
                   format: binary                   
