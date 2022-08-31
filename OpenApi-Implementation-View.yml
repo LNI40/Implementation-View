@@ -1,19 +1,24 @@
 openapi: "3.0.0"
 info:
   version: 0.1.0
-  title: LNI 4.0 Testbed Edge Management Implementation View
+  title: LNI 4.0 Edge Management REST API
   
   description: >-
+    This API defines unified access methods for networked assets like edge devices, field devices and software applications. **Note that not all methods must be supported by all types of assets.**
+    
     ## Legal Disclaimer 
     
     ### © Copyright 2021  Labs Network Industrie 4.0
+    
+    This work is licenced under Creative Commons License: CC BY 4.0
+    [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)(http://creativecommons.org/licenses/by/4.0/)
     
     Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions.
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
     THIS SPECIFICATION IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SPECIFICATION OR THE USE OR OTHER DEALINGS IN THE SPECIFICATION.
 
 servers:
-  - url: '{scheme}://url'
+  - url: '{scheme}://{baseaddress}/{addresspath}'
     variables:
       scheme:
         description: 'The API might be available over https and/or http'
@@ -21,14 +26,27 @@ servers:
           - 'https'
           - 'http'
         default: 'http'  
+      baseaddress:
+        description: 'The API is accessed via a base address, which can consist of a network address with a port number'
+        enum:
+          - 'ip-address'
+          - 'dns-name'
+        default: 'ip-address'          
+      addresspath:
+        description: 'The API supports the following address paths to address substructures. A portId adresses a port instance and an assetId a connected asset in the substructure (i.e. a device)'
+        enum:
+          - 'portId'
+          - 'assetId'
+          - 'portId/assetId'          
+        default: 'assetId'          
 
 tags:
   - name: General
-    description: Access to general informations
+    description: Access to general information
   - name: Edge Asset Management
     description: Manage assets (i.e. devices, applications) in the edge management system directory
   - name: Asset Management
-    description: Manage assets (i.e. devices, applications) directly    
+    description: Manage individual assets (i.e. devices, applications) directly    
   - name: Parameter Handling 
     description: (Functional View, ch. 5.4.2) 
   - name: Deployment Functions
@@ -290,7 +308,7 @@ paths:
                 $ref: "#/components/schemas/Error"
   /tree:
     get:
-      summary: retrieve structural and api information of a single addressed asset
+      summary: retrieve structural and api information of the asset
       operationId: getAPI
       tags:
         - Asset Management
@@ -317,7 +335,7 @@ paths:
                 $ref: "#/components/schemas/Error"                  
   /identity:
     get:
-      summary: retrieve identity of a single addressed asset
+      summary: retrieve identity nameplate of the asset
       operationId: getIdentity
       tags:
         - Asset Management
@@ -367,7 +385,7 @@ paths:
                 $ref: "#/components/schemas/Error"    
   /picture:
     get:
-      summary: retrieve picture image of a single addressed asset
+      summary: retrieve picture image of the asset
       operationId: getImage
       tags:
         - Asset Management
@@ -384,7 +402,89 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"                            
+                $ref: "#/components/schemas/Error"
+                
+  /diagnostics:
+    get:
+      summary: retrieve diagnostic informations of the asset
+      operationId: getDiagnostics
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          description: returns the diagnostics information of the addressed asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AssetIdentification"
+              examples:
+                fieldDevice:
+                  value:
+                    powerLED: "yellow"
+                    sysUpTime: "12345"
+                edgeDevice:
+                  value:  
+                    powerLED: "yellow"
+                    sysUpTime: "12345"                   
+                edgeApp:
+                  value:  
+                    healthState: 100
+                    sysUpTime: "12345"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                    
+  /configuration:
+    get:
+      summary: retrieve configuration variables of the asset
+      operationId: getConfigutration
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          description: returns the configuration items of the addressed asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AssetIdentification"
+              examples:
+                fieldDevice:
+                  value:
+                    sysName: "myFieldDevice"
+                    sysContact: "writeMe"                    
+                    applicationSpecificTag: "***"
+                    geolocation:
+                edgeDevice:
+                  value:  
+                    sysName: "myEdgeDevice"
+                    sysContact: "writeMe"
+                    geolocation:                    
+                edgeApp:
+                  value:  
+                    sysName: "myedgeApp"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"               
+    post:
+      summary: update a set of configuration variables of the asset
+      operationId: changeConfiguration
+      tags:
+        - Asset Management
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"                
+             
 components:
   schemas:
     AssetIdentification:
