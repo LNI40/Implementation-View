@@ -33,7 +33,7 @@ servers:
           - 'dns-name'
         default: 'ip-address'          
       addresspath:
-        description: 'The API supports address paths to address substructures. A portId adresses a port instance and an assetId a connected asset in the substructure (i.e. a device)'
+        description: 'The API supports address paths to address substructures. A portId adresses a port instance and an assetId a connected asset in the substructure (i.e. a device). Information about the available substructures is delivered by GET /tree'
         enum:
           - 'assetId'
           - 'portId'
@@ -167,7 +167,7 @@ paths:
                 message: 'Unknown SESSIONID'
   /assets:
     get:
-      summary: retrieve current asset directory content
+      summary: retrieve current asset directory content on an edge system
       operationId: listAssets
       tags:
         - Edge Asset Management
@@ -226,15 +226,22 @@ paths:
           - desc
       responses:
         '200':
-          description: A paged array of assets
+          description: A paged array of assets. The name of each array element should reflect the base URL.
           content:
             application/json:    
               schema:
                 $ref: "#/components/schemas/Assets"
-              examples:
-                fieldDevice:
-                  value:
-                    DeviceClass: fieldDevice
+              example:
+                - https://{basepath}:
+                    DeviceClass: edgeDevice                  
+                    Manufacturer: EdgeVendor GmbH
+                    ProductCode: EG-123456789
+                    Model: Edge Gateway
+                    HardwareRevision: 1.2
+                    SoftwareRevision: 3.2.1
+                    SerialNumber: DE987654321  
+                - https://{basepath}:
+                    DeviceClass: gatewayDevice
                     Manufacturer: Murrelektronik
                     Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
                     ProductCode: 55510
@@ -243,25 +250,34 @@ paths:
                     SerialNumber: DE987654321
                     ProductInstanceUri: "https://shop.murrelektronik.com/55510/"
                     applicationSpecificTag: "***"
-                    shortDescription: "This is the world best IO-Link-Master ;-)"
+                    shortDescription: "MVK Fusion with safe inputs/outputs."
                     geolocation:
                     sysUpTime:
-                edgeDevice:
-                  value:  
-                    DeviceClass: edgeDevice                  
-                    Manufacturer: EdgeVendor GmbH
-                    ProductCode: EG-123456789
-                    Model: Edge Gateway
-                    HardwareRevision: 1.2
-                    SoftwareRevision: 3.2.1
-                    SerialNumber: DE987654321                    
-                edgeApp:
-                  value:  
+                - https://{basepath}/{assetId}:
+                    DeviceClass: fieldDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVP12 DI16 IOL
+                    ProductCode: 59401
+                    HardwareRevision: 1.1
+                    SoftwareRevision: 1.0.3
+                    SerialNumber: DE123456789
+                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
+                    geolocation:
+                    sysUpTime:                    
+                - https://{basepath}/{assetId}:
                     DeviceClass: edgeApp                  
                     Manufacturer: AppVendor Inc
                     Model: Asset Management                    
                     ProductCode: PROD-123456
                     SoftwareRevision: 1.0.0                      
+                - https://{basepath}/{assetId}:
+                    DeviceClass: file                  
+                    Manufacturer: AppVendor Inc
+                    Model: Asset Management                    
+                    ProductCode: PROD-123456
+                    SoftwareRevision: 1.0.0                    
         default:
           description: unexpected error
           content:
@@ -356,9 +372,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/AssetIdentification"
               examples:
-                fieldDevice:
+                iolMaster:
                   value:
-                    DeviceClass: fieldDevice
+                    URL: https://{basepath}
+                    DeviceClass: gatewayDevice
                     Manufacturer: Murrelektronik
                     Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
                     ProductCode: 55510
@@ -370,22 +387,54 @@ paths:
                     shortDescription: "This is the world best IO-Link-Master ;-)"
                     geolocation:
                     sysUpTime:
-                edgeDevice:
+                iolDevice:
+                  value:
+                    URL: https://{basepath}/{assetId}                   
+                    DeviceClass: fieldDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVP12 DI16 IOL
+                    ProductCode: 59401
+                    HardwareRevision: 1.1
+                    SoftwareRevision: 1.0.3
+                    SerialNumber: DE123456789
+                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
+                    geolocation:
+                    sysUpTime:   
+                ioDevice:
+                  value:
+                    URL: https://{basepath}/{assetId}/{assetId}                  
+                    DeviceClass: ioDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVP12 DI16 IOL
+                    ProductCode: 59401
+                    HardwareRevision: 1.1
+                    SoftwareRevision: 1.0.3
+                    SerialNumber: DE123456789
+                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
+                    geolocation:
+                    sysUpTime:                        
+                edgeGateway:
                   value:  
+                    URL: https://{basepath}                  
                     DeviceClass: edgeDevice                  
                     Manufacturer: EdgeVendor GmbH
                     ProductCode: EG-123456789
                     Model: Edge Gateway
                     HardwareRevision: 1.2
                     SoftwareRevision: 3.2.1
-                    SerialNumber: DE987654321 
-                edgeApp:
+                    SerialNumber: DE987654321                    
+                application:
                   value:  
+                    URL: https://{basepath}/{assetId}                      
                     DeviceClass: edgeApp                  
                     Manufacturer: AppVendor Inc
                     Model: Asset Management                    
                     ProductCode: PROD-123456
-                    SoftwareRevision: 1.0.0                      
+                    SoftwareRevision: 1.0.0                         
                 port:
                   value:  
                     DeviceClass: IO                   
