@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.0
+  version: 0.2.1
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -365,7 +365,7 @@ paths:
     get:
       tags:
         - Asset Management
-      summary: Read all the available portId keys with the corresponding identification information.
+      summary: Read the available portId keys with the corresponding information.
       responses:
         '200':
           description: Successful operation
@@ -377,10 +377,13 @@ paths:
                   type: object
                   required:
                     - portId
+                    - portType
                     - statusInfo
                   properties:
-                    portAlias:
-                      type: string
+                    portId:
+                      type: string   # name of the port, must be unique per device
+                    portType:
+                      type: string   # PWR/ETH/IOL/IO
                     statusInfo:
                       type: string
                       enum:                    # see Terminology in V.113, Table E.4 PortStatusList
@@ -394,10 +397,10 @@ paths:
                         - NOT_AVAILABLE        # NOT_AVAILABLE
                         - PORT_POWER_OFF       # PORT_POWER_OFF
                         - PAIRING_FAULT        # PAIRING_TIMEOUT, PAIRING_WRONG_SLOTTYPE 
-                    items:
+                    deviceInfo:
                       type: object
                       properties:
-                        assetId:
+                        deviceAlias:
                           type: string
                         vendorId:
                           type: number
@@ -406,20 +409,36 @@ paths:
                         productName:
                           type: string
               example:                      
-                  - portAlias: X01
+                 - XF1:
+                    portType: ETH
+                    statusInfo: "CONNECTED"
+                 - XF2:
+                    portType: ETH
+                    statusInfo: "DISCONNECTED"
+                 - XD1:
+                    portType: PWR
+                    statusInfo: "OK"
+                 - XD2:
+                    portType: PWR
+                    statusInfo: "OK"
+                 - X1:
+                    portType: IOL
                     statusInfo: "DEVICE_ONLINE"
                     deviceAlias: "Distance_Sensor"
-                  - portAlias: X02
+                 - X2:
+                    portType: IO                 
                     statusInfo: "DIGITAL_INPUT_C/Q"
                     deviceAlias: "Switching_Sensor"
-                  - portAlias: X03
+                 - X3:
+                    portType: IOL                 
                     statusInfo: "DEVICE_ONLINE"                  
                     deviceAlias: "Wireless_Bridge"
                     deviceInfo:
                       vendorId: 888
                       deviceId: 10485760
                       productName: "BNI IOW-302-W01-K080" 
-                  - portAlias: X04
+                 - X4:
+                    portType: IOL                 
                     statusInfo: "DEACTIVATED"
                       
         default:
