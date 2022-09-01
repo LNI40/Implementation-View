@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.1.0
+  version: 0.2.0
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -357,7 +357,77 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"                  
+                $ref: "#/components/schemas/Error"  
+################################################################################
+# ports
+################################################################################  
+  /ports:
+    get:
+      tags:
+        - Asset Management
+      summary: Read all the available portId keys with the corresponding identification information.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - portId
+                    - statusInfo
+                  properties:
+                    portAlias:
+                      type: string
+                    statusInfo:
+                      type: string
+                      enum:                    # see Terminology in V.113, Table E.4 PortStatusList
+                        - COMMUNICATION_LOST   # NO_DEVICE
+                        - DEACTIVATED          # DEACTIVATED
+                        - INCORRECT_DEVICE     # PORT_DIAG
+                        - DEVICE_STARTING      #
+                        - DEVICE_ONLINE        # OPERATE
+                        - DIGITAL_INPUT_C/Q    # DI_CQ
+                        - DIGITAL_OUTPUT_C/Q   # DO_CQ
+                        - NOT_AVAILABLE        # NOT_AVAILABLE
+                        - PORT_POWER_OFF       # PORT_POWER_OFF
+                        - PAIRING_FAULT        # PAIRING_TIMEOUT, PAIRING_WRONG_SLOTTYPE 
+                    items:
+                      type: object
+                      properties:
+                        assetId:
+                          type: string
+                        vendorId:
+                          type: number
+                        deviceId:
+                          type: number
+                        productName:
+                          type: string
+              example:                      
+                  - portAlias: X01
+                    statusInfo: "DEVICE_ONLINE"
+                    deviceAlias: "Distance_Sensor"
+                  - portAlias: X02
+                    statusInfo: "DIGITAL_INPUT_C/Q"
+                    deviceAlias: "Switching_Sensor"
+                  - portAlias: X03
+                    statusInfo: "DEVICE_ONLINE"                  
+                    deviceAlias: "Wireless_Bridge"
+                    deviceInfo:
+                      vendorId: 888
+                      deviceId: 10485760
+                      productName: "BNI IOW-302-W01-K080" 
+                  - portAlias: X04
+                    statusInfo: "DEACTIVATED"
+                      
+        default:
+          description: not supported
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error" 
   /identity:
     get:
       summary: retrieve identity nameplate of the asset
@@ -461,7 +531,7 @@ paths:
                   type: string
                   format: binary                   
         default:
-          description: unexpected error
+          description: not supported
           content:
             application/json:
               schema:
