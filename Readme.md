@@ -43,10 +43,8 @@ API specifications can be written in YAML or JSON. The format is easy to learn a
 
 ## Legal Disclaimer
 
-#### © Copyright 2021  Labs Network Industrie 4.0
-This work is licenced under the Creative Commons Zero Licence [https://creativecommons.org/publicdomain/zero/1.0/deed.de)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this specifications and associated documentation files (the “Specification”), to deal in the Specification without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Specification, and to permit persons to whom the Specification is furnished to do so, subject to the following conditions:
+#### © Copyright 2022  Labs Network Industrie 4.0
+This work is licenced under the Creative Commons Zero Licence (https://creativecommons.org/publicdomain/zero/1.0/deed.de)
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
 
