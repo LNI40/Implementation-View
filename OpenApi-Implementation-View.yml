@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.2
+  version: 0.2.3
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -378,15 +378,18 @@ paths:
                   required:
                     - portId
                     - portType
+                    - portMode
                     - statusInfo
                   properties:
                     portId:
                       type: string   # name of the port, must be unique per device
                     portType:
-                      type: string   # PWR/ETH/IOL/IO
+                      type: string   # TBD: ENUMS for PWR/ETH/IOL/IO
+                    porMode:
+                      type: string   # TBD: ENUMs for autoNeg, 10000, 100000, 1000000                   
                     statusInfo:
                       type: string
-                      enum:                    # see Terminology in V.113, Table E.4 PortStatusList
+                      enum:                    # see Terminology in IO-Link spec. V.113, Table E.4 PortStatusList
                         - COMMUNICATION_LOST   # NO_DEVICE
                         - DEACTIVATED          # DEACTIVATED
                         - INCORRECT_DEVICE     # PORT_DIAG
@@ -408,38 +411,58 @@ paths:
                           type: number
                         productName:
                           type: string
-              example:                      
-                 - XF1:
-                    portType: ETH
-                    statusInfo: "CONNECTED"
-                 - XF2:
-                    portType: ETH
-                    statusInfo: "DISCONNECTED"
-                 - XD1:
-                    portType: PWR
-                    statusInfo: "OK"
-                 - XD2:
-                    portType: PWR
-                    statusInfo: "OK"
-                 - X1:
-                    portType: IOL
-                    statusInfo: "DEVICE_ONLINE"
-                    deviceAlias: "Distance_Sensor"
-                 - X2:
-                    portType: IO                 
-                    statusInfo: "DIGITAL_INPUT_C/Q"
-                    deviceAlias: "Switching_Sensor"
-                 - X3:
-                    portType: IOL                 
-                    statusInfo: "DEVICE_ONLINE"                  
-                    deviceAlias: "Wireless_Bridge"
-                    deviceInfo:
-                      vendorId: 888
-                      deviceId: 10485760
-                      productName: "BNI IOW-302-W01-K080" 
-                 - X4:
-                    portType: IOL                 
-                    statusInfo: "DEACTIVATED"
+              examples:
+                ethernetSwitch:
+                  value:
+                   - XF1:
+                      portType: ETH
+                      portMode: autoNeg
+                      statusInfo: "CONNECTED"
+                   - XF2:
+                      portType: ETH
+                      portMode: "100000"                      
+                      statusInfo: "DISCONNECTED"
+                   - XF3:
+                      portType: ETH
+                      portMode: autoNeg
+                      statusInfo: "CONNECTED"
+                   - XF4:
+                      portType: ETH
+                      portMode: "100000"                      
+                      statusInfo: "DISCONNECTED"                       
+                iolMaster:
+                  value:
+                   - XF1:
+                      portType: ETH
+                      statusInfo: "CONNECTED"
+                   - XF2:
+                      portType: ETH
+                      statusInfo: "DISCONNECTED"
+                   - XD1:
+                      portType: PWR
+                      statusInfo: "OK"
+                   - XD2:
+                      portType: PWR
+                      statusInfo: "OK"
+                   - X1:
+                      portType: IOL
+                      statusInfo: "DEVICE_ONLINE"
+                      deviceAlias: "Distance_Sensor"
+                   - X2:
+                      portType: IO                 
+                      statusInfo: "DIGITAL_INPUT_C/Q"
+                      deviceAlias: "Switching_Sensor"
+                   - X3:
+                      portType: IOL                 
+                      statusInfo: "DEVICE_ONLINE"                  
+                      deviceAlias: "Wireless_Bridge"
+                      deviceInfo:
+                        vendorId: 888
+                        deviceId: 10485760
+                        productName: "BNI IOW-302-W01-K080" 
+                   - X4:
+                      portType: IOL                 
+                      statusInfo: "DEACTIVATED"
                       
         default:
           description: not supported
