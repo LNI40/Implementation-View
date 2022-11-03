@@ -402,7 +402,7 @@ paths:
                       portType: IOL
                       statusInfo: "DEVICE_ONLINE"
                       deviceAlias: "Distance_Sensor"
-                   - "{scheme}://{gatewayaddress}/subs/X2/":
+                   - "{scheme}://{gatewayaddress}/subs/X2":
                       portType: IO                 
                       statusInfo: "DIGITAL_INPUT_C/Q"
                       deviceAlias: "Switching_Sensor"
@@ -415,7 +415,7 @@ paths:
                         vendorId: 888
                         deviceId: 10485760
                         productName: "BNI IOW-302-W01-K080" 
-                   - "{scheme}://{gatewayaddress}/subs/X4/":
+                   - "{scheme}://{gatewayaddress}/subs/X4":
                       portType: IOL                 
                       statusInfo: "DEACTIVATED"                  
         default:
