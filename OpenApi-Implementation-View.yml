@@ -692,14 +692,53 @@ paths:
           content:
             application/json:    
               schema:
-                $ref: "#/components/schemas/AssetIdentification"
+                type: array # an arry of functional configuration groups
+                items:
+                  type: object
               examples:
-                device:
+                ethernetSwitch:
                   value:
-                    sysName: "myFieldDevice"
-                    sysContact: "writeMe"                    
-                    applicationSpecificTag: "***"
-                    geolocation:
+                   - "Network":
+                      ipConfiguration: MANUAL
+                      ipAddress: 192.168.1.13
+                      subnetMask: 255.255.255.0
+                      standardGateway: 192.168.1.1
+                      sysName: "myEthernetSwitch"
+                      sysContact: "justMe"                    
+                      applicationSpecificTag: "forSwitching"
+                 
+                   - "RSTP":
+                      RstpBridgeStatus: "true"
+                      is_root_bridge: "true"
+                      time_since_topology_change: "100"
+                      topology_change_count: "100"
+                      designated_root_pri: "100"
+                      designated_root_mac: "100"
+                      root_port: "100"
+                      root_path_cost: "100"
+                      bridge_priority: "100"
+                      bridge_mac: "100"
+                      bridge_max_age: "100"
+                      bridge_hello_time: "100"
+                      bridge_forward_delay: "100"
+                      max_age: "100"
+                      hello_time: "100"
+                      forward_delay: "100"
+                   - "MRP":
+                      port1: 123
+                      port2: 456                  
+                     
+                iolMaster:
+                  value:
+                   - "Network":
+                      ipConfiguration: MANUAL
+                      ipAddress: 192.168.1.13
+                      subnetMask: 255.255.255.0
+                      standardGateway: 192.168.1.1                 
+                      sysName: "myFieldDevice"
+                      sysContact: "writeMe"                    
+                      applicationSpecificTag: "***"
+                      geolocation:
                 port:
                   value:
                     portMode: enabled
