@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.3
+  version: 0.2.4
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -17,7 +17,7 @@ info:
     THIS SPECIFICATION IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SPECIFICATION OR THE USE OR OTHER DEALINGS IN THE SPECIFICATION.
 
 servers:
-  - url: '{scheme}://{baseaddress}/{addresspath}'
+  - url: '{scheme}://{gatewayaddress}/{addresspath}'
     description: Generic Model  
     variables:
       scheme:
@@ -38,14 +38,15 @@ servers:
           - 'assetId'
           - 'portId'
           - 'assetId/portId'
+          - 'subs'     #identifies a subsystem or substructure
         default: 'assetId'          
-  - url: https://{baseaddress}
+  - url: https://{gatewayaddress}
     description: Adressing a networked asset
-  - url: http://{baseaddress}/porttId  
+  - url: http://{gatewayaddress}/porttId  
     description: Adressing a port instance on an asset
-  - url: http://{baseaddress}/assetId
+  - url: http://{gatewayaddress}/assetId
     description: Adressing an asset via a networked gateway
-  - url: http://{baseaddress}/assetId/portId
+  - url: http://{gatewayaddress}/assetId/portId
     description: Adressing a port instance on an asset via a networked gateway
     
 
@@ -232,7 +233,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Assets"
               example:
-                - https://{basepath}:
+                - "https://{gatewayaddress}":
                     DeviceClass: edgeDevice                  
                     Manufacturer: EdgeVendor GmbH
                     ProductCode: EG-123456789
@@ -240,7 +241,7 @@ paths:
                     HardwareRevision: 1.2
                     SoftwareRevision: 3.2.1
                     SerialNumber: DE987654321  
-                - https://{basepath}:
+                - https://{gatewayaddress}:
                     DeviceClass: gatewayDevice
                     Manufacturer: Murrelektronik
                     Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
@@ -253,7 +254,7 @@ paths:
                     shortDescription: "MVK Fusion with safe inputs/outputs."
                     geolocation:
                     sysUpTime:
-                - https://{basepath}/{assetId}:
+                - https://{gatewayaddress}/{assetId}:
                     DeviceClass: fieldDevice
                     Manufacturer: Murrelektronik
                     Model: MVP12 DI16 IOL
@@ -266,13 +267,13 @@ paths:
                     shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
                     geolocation:
                     sysUpTime:                    
-                - https://{basepath}/{assetId}:
+                - https://{gatewayaddress}/{assetId}:
                     DeviceClass: edgeApp                  
                     Manufacturer: AppVendor Inc
                     Model: Asset Management                    
                     ProductCode: PROD-123456
                     SoftwareRevision: 1.0.0                      
-                - https://{basepath}/{assetId}:
+                - https://{gatewayaddress}/{assetId}:
                     DeviceClass: file                  
                     Manufacturer: AppVendor Inc
                     Model: Asset Management                    
@@ -331,27 +332,92 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /tree:
+  /capabilities:
     get:
-      summary: retrieve structural and api information of the asset
+      summary: retrieve functional, structural and api information of the asset
       operationId: getAPI
       tags:
         - Asset Management
       responses:
         '200':
-          description: returns the structural interface specification of the addressed asset
+          description: returns the structural interface specification of the addressed asset, an array of resource URIs
           content:
             application/json:    
+              schema:
+                type: array # an a
+                items:
+                  type: object
+                  required:
+                    - portId
+                    - portType
+                    - portMode
+                    - statusInfo
+                  properties:
+                    portType:
+                      type: string   # TBD: ENUMS for PWR/ETH/IOL/IO
+                    porMode:
+                      type: string   # TBD: ENUMs for autoNeg, 10000, 100000, 1000000                   
+                    statusInfo:
+                      type: string
               examples:
-                fieldDevice:
+                ethernetSwitch:
                   value:
-
-                edgeDevice:
-                  value:  
-                   
-                edgeApp:
-                  value:  
-                  
+                   - "{scheme}://{gatewayaddress}/subs/XD1":
+                      portType: PWR
+                      statusInfo: "OK"
+                   - "{scheme}://{gatewayaddress}/subs/XD2":
+                      portType: PWR
+                      statusInfo: "OK"                  
+                   - "{scheme}://{gatewayaddress}/subs/XF1":
+                      portType: ETH
+                      portMode: autoNeg
+                      statusInfo: "CONNECTED"
+                   - "{scheme}://{gatewayaddress}/subs/XF2":
+                      portType: ETH
+                      portMode: "100000"                      
+                      statusInfo: "DISCONNECTED"
+                   - "{scheme}://{gatewayaddress}/subs/XF3":
+                      portType: ETH
+                      portMode: autoNeg
+                      statusInfo: "CONNECTED"
+                   - "{scheme}://{gatewayaddress}/subs/XF4":
+                      portType: ETH
+                      portMode: "100000"                      
+                      statusInfo: "DISCONNECTED"                       
+                iolMaster:
+                  value:
+                   - "{scheme}://{gatewayaddress}/subs/XF1":
+                      portType: ETH
+                      statusInfo: "CONNECTED"
+                   - "{scheme}://{gatewayaddress}/subs/XF2":
+                      portType: ETH
+                      statusInfo: "DISCONNECTED"
+                   - "{scheme}://{gatewayaddress}/subs/XD1":
+                      portType: PWR
+                      statusInfo: "OK"
+                   - "{scheme}://{gatewayaddress}/subs/XD2":
+                      portType: PWR
+                      statusInfo: "OK"
+                   - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X1":
+                      portType: IOL
+                      statusInfo: "DEVICE_ONLINE"
+                      deviceAlias: "Distance_Sensor"
+                   - "{scheme}://{gatewayaddress}/subs/X2/":
+                      portType: IO                 
+                      statusInfo: "DIGITAL_INPUT_C/Q"
+                      deviceAlias: "Switching_Sensor"
+                   - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X3":  
+                      portType: IOL                 
+                      statusInfo: "DEVICE_ONLINE"                  
+                      deviceAlias: "Wireless_Bridge"
+                      deviceURI: "{scheme}://{gatewayaddress}/iolink/v1/devices/Wireless_Bridge"
+                      deviceInfo:
+                        vendorId: 888
+                        deviceId: 10485760
+                        productName: "BNI IOW-302-W01-K080" 
+                   - "{scheme}://{gatewayaddress}/subs/X4/":
+                      portType: IOL                 
+                      statusInfo: "DEACTIVATED"                  
         default:
           description: unexpected error
           content:
