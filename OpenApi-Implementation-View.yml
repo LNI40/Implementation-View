@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.4
+  version: 0.2.5
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -650,14 +650,17 @@ paths:
       summary: retrieve diagnostic informations of the asset
       operationId: getDiagnostics
       tags:
-        - Asset Management
+        - Asset Management      
+      parameters:
+        - $ref: '#/components/parameters/topicId' 
       responses:
         '200':
-          description: returns the diagnostics information of the addressed asset
+          description: returns the diagnostics information of the addressed asset as array of functional status groups
           content:
             application/json:    
               schema:
-                type: array # an arry of functional status groups
+                type: array 
+                minItems: 1
                 items:
                   type: object
               examples:
@@ -763,6 +766,8 @@ paths:
       operationId: getConfigutration
       tags:
         - Asset Management
+      parameters:
+        - $ref: '#/components/parameters/topicId'         
       responses:
         '200':
           description: returns the configuration items of the addressed asset
@@ -954,3 +959,12 @@ components:
           format: int32
         message:
           type: string
+  parameters:
+    topicId:
+      name: topicId
+      in: query
+      description: ID of a topic to filter (empty=retrive all).
+      required: false
+      schema:
+        type: string
+        
