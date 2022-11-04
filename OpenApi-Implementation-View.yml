@@ -332,6 +332,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+################################################################################
   /capabilities:
     get:
       summary: retrieve functional, structural and api information of the asset
@@ -344,7 +345,7 @@ paths:
           content:
             application/json:    
               schema:
-                type: array # an a
+                type: array # an array of resource URIs and some basic information 
                 items:
                   type: object
                   required:
@@ -425,8 +426,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"  
 ################################################################################
-# ports
-################################################################################  
   /ports:
     get:
       tags:
@@ -536,6 +535,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error" 
+################################################################################       
   /identity:
     get:
       summary: retrieve identity nameplate of the asset
@@ -644,7 +644,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-                
+################################################################################        
   /diagnostics:
     get:
       summary: retrieve diagnostic informations of the asset
@@ -657,8 +657,84 @@ paths:
           content:
             application/json:    
               schema:
-                $ref: "#/components/schemas/AssetIdentification"
+                type: array # an arry of functional status groups
+                items:
+                  type: object
               examples:
+                ethernetSwitch:
+                  value:
+                   - "Network":
+                      ipConfiguration: MANUAL
+
+                   - "RSTP":
+                      RstpBridgeStatus: "true"
+                      is_root_bridge: "true"
+                      time_since_topology_change: "100"
+                      topology_change_count: "100"
+
+                   - "MRP":
+                      port1: 123
+                      port2: 456 
+                      
+                   - "PortStatistics":
+                      - id: XF1
+                        octets_in: 0
+                        octets_out: 0
+                        packets_64_octets: 0
+                        packets_127_octets: 0
+                        packets_255_octets: 0
+                        packets_511_octets: 0
+                        packets_1023_octets: 0
+                        packets_max_octets: 0
+                        unicast_in: 0
+                        unicast_out: 0
+                        broadcast_in: 0
+                        broadcast_out: 0
+                        multicast_in: 0
+                        multicast_out: 0
+                        undersized_packets: 0
+                        oversized_packets: 0
+                        fragments: 0
+                        crc_errors: 0
+                        jabbers: 0
+                        collisions: 0
+                        pause_supported: 0
+                        pause_in: 0
+                        pause_out: 0
+                        drops_supported: 0
+                        drops_pkts: 0
+                        filtered_supported: 0
+                        filtered_pkts: 0
+                        timestamp: 0   
+                      - id: "XF2"
+                        octets_in: 0
+                        octets_out: 0
+                        packets_64_octets: 0
+                        packets_127_octets: 0
+                        packets_255_octets: 0
+                        packets_511_octets: 0
+                        packets_1023_octets: 0
+                        packets_max_octets: 0
+                        unicast_in: 0
+                        unicast_out: 0
+                        broadcast_in: 0
+                        broadcast_out: 0
+                        multicast_in: 0
+                        multicast_out: 0
+                        undersized_packets: 0
+                        oversized_packets: 0
+                        fragments: 0
+                        crc_errors: 0
+                        jabbers: 0
+                        collisions: 0
+                        pause_supported: 0
+                        pause_in: 0
+                        pause_out: 0
+                        drops_supported: 0
+                        drops_pkts: 0
+                        filtered_supported: 0
+                        filtered_pkts: 0
+                        timestamp: 0                          
                 device:
                   description: can be a fieldDevice or an edgeDevice                
                   value:
@@ -680,6 +756,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"                    
+################################################################################  
   /configuration:
     get:
       summary: retrieve configuration variables of the asset
@@ -692,12 +769,51 @@ paths:
           content:
             application/json:    
               schema:
-                type: array # an arry of functional configuration groups
+                type: array # an array of functional configuration groups
                 items:
                   type: object
               examples:
                 ethernetSwitch:
                   value:
+                   - "snmp":
+                     v1_v2_ro_community: bla
+                     v1_v2_rw_community: blub
+                     use_v1: true
+                     use_v2: true
+                     use_v3: false
+                     
+                   - "mac_filter": # Die MAC-Adressen für die eine Filterregel gesetzt werden soll
+                      - mac: 00:11:22:33:44
+                        unaware_mode: true
+                      - vlan_id: 1 # Die ID des VLANs für das die MAC-Filterregel gelten soll
+                        portList: 
+                          XF1: true
+                          XF2: false                          
+                      - vlan_id: 2
+                        name: "vlan_1"
+                        portList:
+                          XF2: true
+                          XF3: true                    
+                   - "VLAN":
+                      - management_vlan: 1
+                        unaware_mode: true
+                        max_vlans: 10
+                        # Portmodus: "-" for NoMember, "N" for Unchanged, "U" for Untagged, "T" for Tagged
+                      - vlan_id: 1
+                        name: "vlan_1"
+                        portList:
+                          XF1: 
+                           mode: "-"
+                           ingress_filter: false
+                          XF2: 
+                           mode: "U"
+                           ingress_filter: true                           
+                      - vlan_id: 2
+                        name: "vlan_1"
+                        portList:
+                          XF2: "T"
+                          XF3: "U"      
+                          
                    - "Network":
                       ipConfiguration: MANUAL
                       ipAddress: 192.168.1.13
@@ -708,10 +824,6 @@ paths:
                       applicationSpecificTag: "forSwitching"
                  
                    - "RSTP":
-                      RstpBridgeStatus: "true"
-                      is_root_bridge: "true"
-                      time_since_topology_change: "100"
-                      topology_change_count: "100"
                       designated_root_pri: "100"
                       designated_root_mac: "100"
                       root_port: "100"
@@ -724,11 +836,12 @@ paths:
                       max_age: "100"
                       hello_time: "100"
                       forward_delay: "100"
+                      
                    - "MRP":
                       port1: 123
-                      port2: 456                  
-                     
-                iolMaster:
+                      port2: 456  
+
+                device:
                   value:
                    - "Network":
                       ipConfiguration: MANUAL
