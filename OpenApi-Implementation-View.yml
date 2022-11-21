@@ -652,7 +652,7 @@ paths:
       tags:
         - Asset Management      
       parameters:
-        - $ref: '#/components/parameters/topicId' 
+        - $ref: '#/components/parameters/topic' 
       responses:
         '200':
           description: returns the diagnostics information of the addressed asset as array of functional status groups
@@ -680,64 +680,64 @@ paths:
                       port2: 456 
                       
                    - "PortStatistics":
-                      - id: XF1
-                        octets_in: 0
-                        octets_out: 0
-                        packets_64_octets: 0
-                        packets_127_octets: 0
-                        packets_255_octets: 0
-                        packets_511_octets: 0
-                        packets_1023_octets: 0
-                        packets_max_octets: 0
-                        unicast_in: 0
-                        unicast_out: 0
-                        broadcast_in: 0
-                        broadcast_out: 0
-                        multicast_in: 0
-                        multicast_out: 0
-                        undersized_packets: 0
-                        oversized_packets: 0
-                        fragments: 0
-                        crc_errors: 0
-                        jabbers: 0
-                        collisions: 0
-                        pause_supported: 0
-                        pause_in: 0
-                        pause_out: 0
-                        drops_supported: 0
-                        drops_pkts: 0
-                        filtered_supported: 0
-                        filtered_pkts: 0
-                        timestamp: 0   
-                      - id: "XF2"
-                        octets_in: 0
-                        octets_out: 0
-                        packets_64_octets: 0
-                        packets_127_octets: 0
-                        packets_255_octets: 0
-                        packets_511_octets: 0
-                        packets_1023_octets: 0
-                        packets_max_octets: 0
-                        unicast_in: 0
-                        unicast_out: 0
-                        broadcast_in: 0
-                        broadcast_out: 0
-                        multicast_in: 0
-                        multicast_out: 0
-                        undersized_packets: 0
-                        oversized_packets: 0
-                        fragments: 0
-                        crc_errors: 0
-                        jabbers: 0
-                        collisions: 0
-                        pause_supported: 0
-                        pause_in: 0
-                        pause_out: 0
-                        drops_supported: 0
-                        drops_pkts: 0
-                        filtered_supported: 0
-                        filtered_pkts: 0
-                        timestamp: 0                          
+                      - "XF1":
+                          octets_in: 0
+                          octets_out: 0
+                          packets_64_octets: 0
+                          packets_127_octets: 0
+                          packets_255_octets: 0
+                          packets_511_octets: 0
+                          packets_1023_octets: 0
+                          packets_max_octets: 0
+                          unicast_in: 0
+                          unicast_out: 0
+                          broadcast_in: 0
+                          broadcast_out: 0
+                          multicast_in: 0
+                          multicast_out: 0
+                          undersized_packets: 0
+                          oversized_packets: 0
+                          fragments: 0
+                          crc_errors: 0
+                          jabbers: 0
+                          collisions: 0
+                          pause_supported: 0
+                          pause_in: 0
+                          pause_out: 0
+                          drops_supported: 0
+                          drops_pkts: 0
+                          filtered_supported: 0
+                          filtered_pkts: 0
+                          timestamp: 0   
+                      - "XF2":
+                          octets_in: 0
+                          octets_out: 0
+                          packets_64_octets: 0
+                          packets_127_octets: 0
+                          packets_255_octets: 0
+                          packets_511_octets: 0
+                          packets_1023_octets: 0
+                          packets_max_octets: 0
+                          unicast_in: 0
+                          unicast_out: 0
+                          broadcast_in: 0
+                          broadcast_out: 0
+                          multicast_in: 0
+                          multicast_out: 0
+                          undersized_packets: 0
+                          oversized_packets: 0
+                          fragments: 0
+                          crc_errors: 0
+                          jabbers: 0
+                          collisions: 0
+                          pause_supported: 0
+                          pause_in: 0
+                          pause_out: 0
+                          drops_supported: 0
+                          drops_pkts: 0
+                          filtered_supported: 0
+                          filtered_pkts: 0
+                          timestamp: 0                          
                 device:
                   description: can be a fieldDevice or an edgeDevice                
                   value:
@@ -767,7 +767,7 @@ paths:
       tags:
         - Asset Management
       parameters:
-        - $ref: '#/components/parameters/topicId'         
+        - $ref: '#/components/parameters/topic'         
       responses:
         '200':
           description: returns the configuration items of the addressed asset
@@ -804,20 +804,20 @@ paths:
                         unaware_mode: true
                         max_vlans: 10
                         # Portmodus: "-" for NoMember, "N" for Unchanged, "U" for Untagged, "T" for Tagged
-                      - vlan_id: 1
-                        name: "vlan_1"
-                        portList:
-                          XF1: 
-                           mode: "-"
-                           ingress_filter: false
-                          XF2: 
-                           mode: "U"
-                           ingress_filter: true                           
-                      - vlan_id: 2
-                        name: "vlan_1"
-                        portList:
-                          XF2: "T"
-                          XF3: "U"      
+                      - "1":
+                          name: "vlan_1"
+                          portList:
+                            XF1: 
+                             mode: "-"
+                             ingress_filter: false
+                            XF2: 
+                             mode: "U"
+                             ingress_filter: true                           
+                      - "2":
+                          name: "vlan_2"
+                          portList:
+                            XF2: "T"
+                            XF3: "U"      
                           
                    - "Network":
                       ipConfiguration: MANUAL
@@ -960,8 +960,8 @@ components:
         message:
           type: string
   parameters:
-    topicId:
-      name: topicId
+    topic:
+      name: topic
       in: query
       description: ID of a topic to filter (empty=retrive all).
       required: false
