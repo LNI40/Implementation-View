@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.6
+  version: 0.2.5
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -64,6 +64,32 @@ tags:
 
 
 paths:
+  /openapi:
+    get:
+      tags:
+        - General
+      summary: Get the REST interface description of this API as OpenAPI YAML document.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                format: yaml
+
+  /apiversion:
+    get:
+      tags:
+        - General
+      summary: Get the REST interface version identification.
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string  #"major.minor.bugfix"
   '/login':
     get:
       tags:
