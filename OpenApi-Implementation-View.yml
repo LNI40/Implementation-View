@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.5
+  version: 0.2.6
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -363,62 +363,85 @@ paths:
               examples:
                 ethernetSwitch:
                   value:
-                   - "{scheme}://{gatewayaddress}/subs/XD1":
-                      portType: PWR
-                      statusInfo: "OK"
-                   - "{scheme}://{gatewayaddress}/subs/XD2":
-                      portType: PWR
-                      statusInfo: "OK"                  
-                   - "{scheme}://{gatewayaddress}/subs/XF1":
-                      portType: ETH
-                      portMode: autoNeg
-                      statusInfo: "CONNECTED"
-                   - "{scheme}://{gatewayaddress}/subs/XF2":
-                      portType: ETH
-                      portMode: "100000"                      
-                      statusInfo: "DISCONNECTED"
-                   - "{scheme}://{gatewayaddress}/subs/XF3":
-                      portType: ETH
-                      portMode: autoNeg
-                      statusInfo: "CONNECTED"
-                   - "{scheme}://{gatewayaddress}/subs/XF4":
-                      portType: ETH
-                      portMode: "100000"                      
-                      statusInfo: "DISCONNECTED"                       
+                   - endpoints: # list of endpoints that are accessible on the asset:
+                     - "{scheme}://{gatewayaddress}/subs/XD1":
+                        portType: PWR
+                        statusInfo: "OK"
+                     - "{scheme}://{gatewayaddress}/subs/XD2":
+                        portType: PWR
+                        statusInfo: "OK"                  
+                     - "{scheme}://{gatewayaddress}/subs/XF1":
+                        portType: ETH
+                        portMode: autoNeg
+                        statusInfo: "CONNECTED"
+                     - "{scheme}://{gatewayaddress}/subs/XF2":
+                        portType: ETH
+                        portMode: "100000"                      
+                        statusInfo: "DISCONNECTED"
+                     - "{scheme}://{gatewayaddress}/subs/XF3":
+                        portType: ETH
+                        portMode: autoNeg
+                        statusInfo: "CONNECTED"
+                     - "{scheme}://{gatewayaddress}/subs/XF4":
+                        portType: ETH
+                        portMode: "100000"                      
+                        statusInfo: "DISCONNECTED"
+                   - methods: # list of methods that are accessible on the asset:
+                     - factoryReset:
+                        type: ALL  #ALL/CFG
+                     - configSave: 
+                        type: LOCAL # LOCAL/REMOTE
+                     - configLoad:
+                        type: LOCAL # LOCAL/REMOTE
+                     - ledBlink:
+                        type: FLASH
+                        duration: 5
+                                         
                 iolMaster:
                   value:
-                   - "{scheme}://{gatewayaddress}/subs/XF1":
-                      portType: ETH
-                      statusInfo: "CONNECTED"
-                   - "{scheme}://{gatewayaddress}/subs/XF2":
-                      portType: ETH
-                      statusInfo: "DISCONNECTED"
-                   - "{scheme}://{gatewayaddress}/subs/XD1":
-                      portType: PWR
-                      statusInfo: "OK"
-                   - "{scheme}://{gatewayaddress}/subs/XD2":
-                      portType: PWR
-                      statusInfo: "OK"
-                   - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X1":
-                      portType: IOL
-                      statusInfo: "DEVICE_ONLINE"
-                      deviceAlias: "Distance_Sensor"
-                   - "{scheme}://{gatewayaddress}/subs/X2":
-                      portType: IO                 
-                      statusInfo: "DIGITAL_INPUT_C/Q"
-                      deviceAlias: "Switching_Sensor"
-                   - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X3":  
-                      portType: IOL                 
-                      statusInfo: "DEVICE_ONLINE"                  
-                      deviceAlias: "Wireless_Bridge"
-                      deviceURI: "{scheme}://{gatewayaddress}/iolink/v1/devices/Wireless_Bridge"
-                      deviceInfo:
-                        vendorId: 888
-                        deviceId: 10485760
-                        productName: "BNI IOW-302-W01-K080" 
-                   - "{scheme}://{gatewayaddress}/subs/X4":
-                      portType: IOL                 
-                      statusInfo: "DEACTIVATED"                  
+                   - endpoints: # list of endpoints that are accessible on the asset:                  
+                     - "{scheme}://{gatewayaddress}/subs/XF1":
+                        portType: ETH
+                        statusInfo: "CONNECTED"
+                     - "{scheme}://{gatewayaddress}/subs/XF2":
+                        portType: ETH
+                        statusInfo: "DISCONNECTED"
+                     - "{scheme}://{gatewayaddress}/subs/XD1":
+                        portType: PWR
+                        statusInfo: "OK"
+                     - "{scheme}://{gatewayaddress}/subs/XD2":
+                        portType: PWR
+                        statusInfo: "OK"
+                     - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X1":
+                        portType: IOL
+                        statusInfo: "DEVICE_ONLINE"
+                        deviceAlias: "Distance_Sensor"
+                     - "{scheme}://{gatewayaddress}/subs/X2":
+                        portType: IO                 
+                        statusInfo: "DIGITAL_INPUT_C/Q"
+                        deviceAlias: "Switching_Sensor"
+                     - "{scheme}://{gatewayaddress}/iolink/v1/masters/1/ports/X3":  
+                        portType: IOL                 
+                        statusInfo: "DEVICE_ONLINE"                  
+                        deviceAlias: "Wireless_Bridge"
+                        deviceURI: "{scheme}://{gatewayaddress}/iolink/v1/devices/Wireless_Bridge"
+                        deviceInfo:
+                          vendorId: 888
+                          deviceId: 10485760
+                          productName: "BNI IOW-302-W01-K080" 
+                     - "{scheme}://{gatewayaddress}/subs/X4":
+                        portType: IOL                 
+                        statusInfo: "DEACTIVATED"     
+                   - methods: # list of methods that are accessible on the asset:
+                     - factoryReset:
+                        type: ALL  #ALL/CFG
+                     - configSave: 
+                        type: LOCAL # LOCAL/REMOTE
+                     - configLoad:
+                        type: LOCAL # LOCAL/REMOTE
+                     - ledBlink:
+                        type: FLASH
+                        duration: 5                      
         default:
           description: unexpected error
           content:
@@ -804,7 +827,7 @@ paths:
                         unaware_mode: true
                         max_vlans: 10
                         # Portmodus: "-" for NoMember, "N" for Unchanged, "U" for Untagged, "T" for Tagged
-                      - "1":
+                      - "1": # Die ID des VLANs
                           name: "vlan_1"
                           portList:
                             XF1: 
@@ -813,7 +836,7 @@ paths:
                             XF2: 
                              mode: "U"
                              ingress_filter: true                           
-                      - "2":
+                      - "2": # Die ID des VLANs
                           name: "vlan_2"
                           portList:
                             XF2: "T"
