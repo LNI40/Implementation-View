@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.5
+  version: 0.2.6
   title: LNI 4.0 Edge Management REST API
   
   description: >-
@@ -8,7 +8,7 @@ info:
     
     ## Legal Disclaimer 
     
-    ### © Copyright 2021  Labs Network Industrie 4.0
+    ### © Copyright 2021-2023  Labs Network Industrie 4.0
     
     This work is licenced under the Creative Commons Zero Licence 
     (https://creativecommons.org/publicdomain/zero/1.0/deed.de)
@@ -64,6 +64,26 @@ tags:
 
 
 paths:
+  /:
+    get:
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResLinks'
+          description: Successful response
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: unexpected error
+      operationId: getRootDevice
+      summary: retrieve functional, structural and api information of the root/gateway device
+        
   /openapi:
     get:
       tags:
@@ -503,115 +523,66 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"  
 ################################################################################
-  /ports:
+  /device:
+    description: Retrieve the hardware structure of a device (i.e. ports, LEDs).
     get:
       tags:
         - Asset Management
-      summary: Read the available portId keys with the corresponding information.
       responses:
         '200':
-          description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - portId
-                    - portType
-                    - portMode
-                    - statusInfo
-                  properties:
-                    portId:
-                      type: string   # name of the port, must be unique per device
-                    portType:
-                      type: string   # TBD: ENUMS for PWR/ETH/IOL/IO
-                    porMode:
-                      type: string   # TBD: ENUMs for autoNeg, 10000, 100000, 1000000                   
-                    statusInfo:
-                      type: string
-                      enum:                    # see Terminology in IO-Link spec. V.113, Table E.4 PortStatusList
-                        - COMMUNICATION_LOST   # NO_DEVICE
-                        - DEACTIVATED          # DEACTIVATED
-                        - INCORRECT_DEVICE     # PORT_DIAG
-                        - DEVICE_STARTING      #
-                        - DEVICE_ONLINE        # OPERATE
-                        - DIGITAL_INPUT_C/Q    # DI_CQ
-                        - DIGITAL_OUTPUT_C/Q   # DO_CQ
-                        - NOT_AVAILABLE        # NOT_AVAILABLE
-                        - PORT_POWER_OFF       # PORT_POWER_OFF
-                        - PAIRING_FAULT        # PAIRING_TIMEOUT, PAIRING_WRONG_SLOTTYPE 
-                    deviceInfo:
-                      type: object
-                      properties:
-                        deviceAlias:
-                          type: string
-                        vendorId:
-                          type: number
-                        deviceId:
-                          type: number
-                        productName:
-                          type: string
+                type: object
+                allOf:
+                  - $ref: '#/components/schemas/ResLinks'
               examples:
-                ethernetSwitch:
+                EthernetSwitch:
                   value:
-                   - XF1:
-                      portType: ETH
-                      portMode: autoNeg
-                      statusInfo: "CONNECTED"
-                   - XF2:
-                      portType: ETH
-                      portMode: "100000"                      
-                      statusInfo: "DISCONNECTED"
-                   - XF3:
-                      portType: ETH
-                      portMode: autoNeg
-                      statusInfo: "CONNECTED"
-                   - XF4:
-                      portType: ETH
-                      portMode: "100000"                      
-                      statusInfo: "DISCONNECTED"                       
-                iolMaster:
+                    links:
+                      - href: /device/XD1
+                        rel: Power
+                        type: GET
+                      - href: /device/XD2
+                        rel: Power
+                        type: GET
+                      - href: /device/XF1
+                        rel: ETH
+                        type: GET
+                      - href: /device/XF2
+                        rel: ETH
+                        type: GET
+                      - href: /device/XF3
+                        rel: ETH
+                        type: GET
+                      - href: /device/XF4
+                        rel: ETH
+                        type: GET
+                IOLinkMaster:
                   value:
-                   - XF1:
-                      portType: ETH
-                      statusInfo: "CONNECTED"
-                   - XF2:
-                      portType: ETH
-                      statusInfo: "DISCONNECTED"
-                   - XD1:
-                      portType: PWR
-                      statusInfo: "OK"
-                   - XD2:
-                      portType: PWR
-                      statusInfo: "OK"
-                   - X1:
-                      portType: IOL
-                      statusInfo: "DEVICE_ONLINE"
-                      deviceAlias: "Distance_Sensor"
-                   - X2:
-                      portType: IO                 
-                      statusInfo: "DIGITAL_INPUT_C/Q"
-                      deviceAlias: "Switching_Sensor"
-                   - X3:
-                      portType: IOL                 
-                      statusInfo: "DEVICE_ONLINE"                  
-                      deviceAlias: "Wireless_Bridge"
-                      deviceInfo:
-                        vendorId: 888
-                        deviceId: 10485760
-                        productName: "BNI IOW-302-W01-K080" 
-                   - X4:
-                      portType: IOL                 
-                      statusInfo: "DEACTIVATED"
-                      
+                    links:
+                      - href: /iolink/v1/masters/1/ports/1"
+                        rel: IOL
+                        type: GET
+                      - href: /iolink/v1/masters/1/ports/2"
+                        rel: IOL
+                        type: GET
+                      - href: /iolink/v1/masters/1/ports/3"
+                        rel: IOL
+                        type: GET
+                      - href: /iolink/v1/masters/1/ports/3"
+                        rel: IOL
+                        type: GET
+          description: returns the structural hardware interface specification of the addressed root             device asset, an array of resource URIs. Previously implemented /external resource may not follow our API design principles.
         default:
-          description: not supported
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error" 
+                $ref: '#/components/schemas/Error'
+          description: unexpected error
+      operationId: getRootDeviceStructure
+      summary: retrieve functional, structural and api information of the root device asset
+      description: Get device HW and SW components.
 ################################################################################       
   /identity:
     get:
@@ -1019,12 +990,54 @@ components:
               type: string
             latitude:
               type: string
-
+    ResLink:
+      type: object
+      properties:
+        href:
+          description: Link to available resources eg. /capabilities. Muss be absolute path
+          type: string
+        rel:
+          description: Relationship to the linked resource
+          type: string
+        type:
+          description: Supported http method ("get", "post", "delete", "put", "patch")
+          type: string                   
+    ResLinks:
+      type: object
+      properties:
+        baseURI:
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResLink'
+      example:
+        baseURI: https://hostname/basepath/
+        links:
+          - href: /identification
+            rel: identification
+            method: get
+          - href: /picture
+            rel: children
+            method: get
+          - href: /device
+            rel: children
+            method: get
+          - href: /capabilities
+            rel: capabilities
+            method: get
+          - href: /login
+            rel: children
+            method: get
+          - href: /diagnostics
+            rel: children
+            method: get
+            
     Assets:
       type: array
       items:
         $ref: "#/components/schemas/AssetIdentification"
-        
+   
     Error:
       type: object
       required:
