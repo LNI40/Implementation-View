@@ -1,10 +1,10 @@
 openapi: "3.0.3"
 info:
-  version: 0.2.6
+  version: 0.2.7
   title: LNI 4.0 Edge Management REST API
   
   description: >-
-    This API defines unified access methods for networked assets like edge devices, field devices, their ports and software applications. **Note that not all methods must be supported by all of these types of assets.**
+    This API defines unified access methods for networked assets like edge devices, field devices, their ports and software applications, utilizing the HATEOAS principle. **Note that not all methods must be supported by all of these types of assets.**
     
     ## Legal Disclaimer 
     
@@ -18,7 +18,7 @@ info:
 
 servers:
   - url: '{scheme}://{gatewayaddress}/{addresspath}'
-    description: Generic Model  
+    description: Generic Edge API 
     variables:
       scheme:
         description: 'The API might be available over https and/or http'
@@ -67,7 +67,9 @@ paths:
   /:
     get:
       tags:
-        - Asset Management
+        - General
+      operationId: getRootLinks
+      summary: retrieve functional, structural and api information of the root/gateway asset as a list of links according to the HATEOAS principle.
       responses:
         '200':
           content:
@@ -81,14 +83,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: unexpected error
-      operationId: getRootDevice
-      summary: retrieve functional, structural and api information of the root/gateway device
         
   /openapi:
     get:
       tags:
         - General
-      summary: Get the REST interface description of this API as OpenAPI YAML document.
+      operationId: getApi       
+      summary: Get the REST interface description of this API as OpenAPI document.
       responses:
         '200':
           description: Successful operation
@@ -98,26 +99,14 @@ paths:
                 type: string
                 format: yaml
 
-  /apiversion:
-    get:
-      tags:
-        - General
-      summary: Get the REST interface version identification.
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: string  #"major.minor.bugfix"
   '/login':
     get:
       tags:
         - General
+      operationId: getLogin
       summary: Returns the login status of the user
       description: >-
         Returns the login status of the user as a boolean value
-      operationId: getUsersLogin
       responses:
         '200':
           description: OK
@@ -379,6 +368,115 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 ################################################################################
+  /identification:
+    get:
+      summary: retrieve identification nameplate of the asset
+      operationId: getIdentity
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          description: returns the identification nameplate of the addressed asset
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/AssetIdentification"
+              examples:
+                iolMaster:
+                  value:
+                    URL: https://{basepath}
+                    DeviceClass: gatewayDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
+                    ProductCode: 55510
+                    HardwareRevision: 1.0
+                    SoftwareRevision: 2.0.1
+                    SerialNumber: DE987654321
+                    ProductInstanceUri: "https://shop.murrelektronik.com/55510/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "This is the world best IO-Link-Master ;-)"
+                    geolocation:
+                    sysUpTime:
+                iolDevice:
+                  value:
+                    URL: https://{basepath}/{assetId}                   
+                    DeviceClass: fieldDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVP12 DI16 IOL
+                    ProductCode: 59401
+                    HardwareRevision: 1.1
+                    SoftwareRevision: 1.0.3
+                    SerialNumber: DE123456789
+                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
+                    geolocation:
+                    sysUpTime:   
+                ioDevice:
+                  value:
+                    URL: https://{basepath}/{assetId}/{assetId}                  
+                    DeviceClass: ioDevice
+                    Manufacturer: Murrelektronik
+                    Model: MVP12 DI16 IOL
+                    ProductCode: 59401
+                    HardwareRevision: 1.1
+                    SoftwareRevision: 1.0.3
+                    SerialNumber: DE123456789
+                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
+                    applicationSpecificTag: "***"
+                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
+                    geolocation:
+                    sysUpTime:                        
+                edgeGateway:
+                  value:  
+                    URL: https://{basepath}                  
+                    DeviceClass: edgeDevice                  
+                    Manufacturer: EdgeVendor GmbH
+                    ProductCode: EG-123456789
+                    Model: Edge Gateway
+                    HardwareRevision: 1.2
+                    SoftwareRevision: 3.2.1
+                    SerialNumber: DE987654321                    
+                application:
+                  value:  
+                    URL: https://{basepath}/{assetId}                      
+                    DeviceClass: edgeApp                  
+                    Manufacturer: AppVendor Inc
+                    Model: Asset Management                    
+                    ProductCode: PROD-123456
+                    SoftwareRevision: 1.0.0                         
+                port:
+                  value:  
+                    DeviceClass: IO                   
+                    portId: X0                  
+                    
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"    
+  /picture:
+    get:
+      summary: retrieve picture image of the asset
+      operationId: getImage
+      tags:
+        - Asset Management
+      responses:
+        '200':
+          description: returns an image of the addressed asset
+          content:
+              image/png:
+                schema: 
+                  type: string
+                  format: binary                   
+        default:
+          description: not supported
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+################################################################################   
   /capabilities:
     get:
       summary: retrieve functional, structural and api information of the asset
@@ -524,7 +622,7 @@ paths:
                 $ref: "#/components/schemas/Error"  
 ################################################################################
   /device:
-    description: Retrieve the hardware structure of a device (i.e. ports, LEDs).
+    description: Retrieve the hardware structure and access methods of a device asset (i.e. ports, LEDs).
     get:
       tags:
         - Asset Management
@@ -584,115 +682,6 @@ paths:
       summary: retrieve functional, structural and api information of the root device asset
       description: Get device HW and SW components.
 ################################################################################       
-  /identity:
-    get:
-      summary: retrieve identity nameplate of the asset
-      operationId: getIdentity
-      tags:
-        - Asset Management
-      responses:
-        '200':
-          description: returns the identification nameplate of the addressed asset
-          content:
-            application/json:    
-              schema:
-                $ref: "#/components/schemas/AssetIdentification"
-              examples:
-                iolMaster:
-                  value:
-                    URL: https://{basepath}
-                    DeviceClass: gatewayDevice
-                    Manufacturer: Murrelektronik
-                    Model: MVK PN FDI6/3 FDO2/1 DIO4 IOL2 IRT PP
-                    ProductCode: 55510
-                    HardwareRevision: 1.0
-                    SoftwareRevision: 2.0.1
-                    SerialNumber: DE987654321
-                    ProductInstanceUri: "https://shop.murrelektronik.com/55510/"
-                    applicationSpecificTag: "***"
-                    shortDescription: "This is the world best IO-Link-Master ;-)"
-                    geolocation:
-                    sysUpTime:
-                iolDevice:
-                  value:
-                    URL: https://{basepath}/{assetId}                   
-                    DeviceClass: fieldDevice
-                    Manufacturer: Murrelektronik
-                    Model: MVP12 DI16 IOL
-                    ProductCode: 59401
-                    HardwareRevision: 1.1
-                    SoftwareRevision: 1.0.3
-                    SerialNumber: DE123456789
-                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
-                    applicationSpecificTag: "***"
-                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
-                    geolocation:
-                    sysUpTime:   
-                ioDevice:
-                  value:
-                    URL: https://{basepath}/{assetId}/{assetId}                  
-                    DeviceClass: ioDevice
-                    Manufacturer: Murrelektronik
-                    Model: MVP12 DI16 IOL
-                    ProductCode: 59401
-                    HardwareRevision: 1.1
-                    SoftwareRevision: 1.0.3
-                    SerialNumber: DE123456789
-                    ProductInstanceUri: "https://shop.murrelektronik.com/59401/"
-                    applicationSpecificTag: "***"
-                    shortDescription: "MVP12 8xM12 DI16 IOL IO-Link Version 1.12"
-                    geolocation:
-                    sysUpTime:                        
-                edgeGateway:
-                  value:  
-                    URL: https://{basepath}                  
-                    DeviceClass: edgeDevice                  
-                    Manufacturer: EdgeVendor GmbH
-                    ProductCode: EG-123456789
-                    Model: Edge Gateway
-                    HardwareRevision: 1.2
-                    SoftwareRevision: 3.2.1
-                    SerialNumber: DE987654321                    
-                application:
-                  value:  
-                    URL: https://{basepath}/{assetId}                      
-                    DeviceClass: edgeApp                  
-                    Manufacturer: AppVendor Inc
-                    Model: Asset Management                    
-                    ProductCode: PROD-123456
-                    SoftwareRevision: 1.0.0                         
-                port:
-                  value:  
-                    DeviceClass: IO                   
-                    portId: X0                  
-                    
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"    
-  /picture:
-    get:
-      summary: retrieve picture image of the asset
-      operationId: getImage
-      tags:
-        - Asset Management
-      responses:
-        '200':
-          description: returns an image of the addressed asset
-          content:
-              image/png:
-                schema: 
-                  type: string
-                  format: binary                   
-        default:
-          description: not supported
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-################################################################################        
   /diagnostics:
     get:
       summary: retrieve diagnostic informations of the asset
@@ -711,96 +700,35 @@ paths:
                 minItems: 1
                 items:
                   type: object
-              examples:
-                ethernetSwitch:
-                  value:
-                   - "Network":
-                      ipConfiguration: MANUAL
+              example:
+               - "Health":
+                  healthState: 78               
+               - "RSTP":
+                  RstpBridgeStatus: "true"
+                  is_root_bridge: "true"
+                  time_since_topology_change: "100"
+                  topology_change_count: "100"
 
-                   - "RSTP":
-                      RstpBridgeStatus: "true"
-                      is_root_bridge: "true"
-                      time_since_topology_change: "100"
-                      topology_change_count: "100"
-
-                   - "MRP":
-                      port1: 123
-                      port2: 456 
-                      
-                   - "PortStatistics":
-                      - "XF1":
-                          octets_in: 0
-                          octets_out: 0
-                          packets_64_octets: 0
-                          packets_127_octets: 0
-                          packets_255_octets: 0
-                          packets_511_octets: 0
-                          packets_1023_octets: 0
-                          packets_max_octets: 0
-                          unicast_in: 0
-                          unicast_out: 0
-                          broadcast_in: 0
-                          broadcast_out: 0
-                          multicast_in: 0
-                          multicast_out: 0
-                          undersized_packets: 0
-                          oversized_packets: 0
-                          fragments: 0
-                          crc_errors: 0
-                          jabbers: 0
-                          collisions: 0
-                          pause_supported: 0
-                          pause_in: 0
-                          pause_out: 0
-                          drops_supported: 0
-                          drops_pkts: 0
-                          filtered_supported: 0
-                          filtered_pkts: 0
-                          timestamp: 0   
-                      - "XF2":
-                          octets_in: 0
-                          octets_out: 0
-                          packets_64_octets: 0
-                          packets_127_octets: 0
-                          packets_255_octets: 0
-                          packets_511_octets: 0
-                          packets_1023_octets: 0
-                          packets_max_octets: 0
-                          unicast_in: 0
-                          unicast_out: 0
-                          broadcast_in: 0
-                          broadcast_out: 0
-                          multicast_in: 0
-                          multicast_out: 0
-                          undersized_packets: 0
-                          oversized_packets: 0
-                          fragments: 0
-                          crc_errors: 0
-                          jabbers: 0
-                          collisions: 0
-                          pause_supported: 0
-                          pause_in: 0
-                          pause_out: 0
-                          drops_supported: 0
-                          drops_pkts: 0
-                          filtered_supported: 0
-                          filtered_pkts: 0
-                          timestamp: 0                          
-                device:
-                  description: can be a fieldDevice or an edgeDevice                
-                  value:
-                    healthState: 78                  
-                    powerLED: "yellow"
-                    sysUpTime: "12345"
-                port:
-                  value:
-                    healthState: 55                  
-                    portStatsRx: 23456
-                    portStatsTx: 45676                       
-                app:
-                  value:  
-                    healthState: 100
-                    sysUpTime: "12345"
+               - "PortStatistics":
+                  - "XF1":
+                      octets_in: 0
+                      octets_out: 0
+                      undersized_packets: 0
+                      oversized_packets: 0
+                      fragments: 0
+                      crc_errors: 0
+                      jabbers: 0
+                      collisions: 0
+                  - "XF2":
+                      octets_in: 0
+                      octets_out: 0
+                      undersized_packets: 0
+                      oversized_packets: 0
+                      fragments: 0
+                      crc_errors: 0
+                      jabbers: 0
+                      collisions: 0                        
+               
         default:
           description: unexpected error
           content:
@@ -825,9 +753,7 @@ paths:
                 type: array # an array of functional configuration groups
                 items:
                   type: object
-              examples:
-                ethernetSwitch:
-                  value:
+              example:
                    - "snmp":
                      v1_v2_ro_community: bla
                      v1_v2_rw_community: blub
@@ -894,24 +820,6 @@ paths:
                       port1: 123
                       port2: 456  
 
-                device:
-                  value:
-                   - "Network":
-                      ipConfiguration: MANUAL
-                      ipAddress: 192.168.1.13
-                      subnetMask: 255.255.255.0
-                      standardGateway: 192.168.1.1                 
-                      sysName: "myFieldDevice"
-                      sysContact: "writeMe"                    
-                      applicationSpecificTag: "***"
-                      geolocation:
-                port:
-                  value:
-                    portMode: enabled
-                    portSpeed: 100000000                    
-                app:
-                  value:  
-                    sysName: "myedgeApp"
         default:
           description: unexpected error
           content:
@@ -994,16 +902,22 @@ components:
       type: object
       properties:
         href:
-          description: Link to available resources eg. /capabilities. Muss be absolute path
+          description: Link to available resources eg. "/capabilities". Must be relative path to baseUri
           type: string
         rel:
           description: Relationship to the linked resource
           type: string
         type:
           description: Supported http method ("get", "post", "delete", "put", "patch")
-          type: string                   
+          type: string    
+          required:
+          - href
+          - rel
+          - type
+          
     ResLinks:
       type: object
+      description: List of links to available resources according to HATEOAS principle      
       properties:
         baseURI:
           type: string
@@ -1012,26 +926,32 @@ components:
           items:
             $ref: '#/components/schemas/ResLink'
       example:
-        baseURI: https://hostname/basepath/
+        baseURI: "{scheme}://{gatewayaddress}/{addresspath}"
         links:
-          - href: /identification
-            rel: identification
-            method: get
-          - href: /picture
-            rel: children
-            method: get
-          - href: /device
-            rel: children
-            method: get
-          - href: /capabilities
-            rel: capabilities
-            method: get
-          - href: /login
-            rel: children
-            method: get
-          - href: /diagnostics
-            rel: children
-            method: get
+            - href: /identification
+              rel: identification
+              type: GET
+            - href: /picture
+              rel: picture
+              type: GET
+            - href: /openapi
+              rel: api
+              type: GET
+            - href: /users
+              rel: usermanagement
+              type: GET
+            - href: /logout
+              rel: security
+              type: POST
+            - href: /configuration
+              rel: configuration
+              type: GET
+            - href: /diagnostics
+              rel: diagnostics
+              type: GET
+            - href: /device
+              rel: device
+              type: GET
             
     Assets:
       type: array
