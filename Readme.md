@@ -1,52 +1,45 @@
+# Das LNI4.0 Edge Management Testbed
+## Motivation
+Industrie 4.0 verbindet die traditionelle Welt der Fertigung (OT) mit den Möglichkeiten der modernen IT. Ein zentrales Element dieser Verbindung sind Edge-Geräte. Diese spielen in der Fabrikautomatisierung eine Schlüsselrolle. Jedoch stellt die Auswahl und Einrichtung, also Konfiguration dieser Geräte nur einen Teil der Herausforderung dar. Denn vor allem in der Integration sowie des Managements der Geräte liegt häufig eine besondere Komplexität. Auch die entsprechende Software und Verbindungen werden benötigt, um ein effizientes und interoperables Projekt zu gewährleisten.
 
-# LNI4.0 Business View
+Derzeit sind die meisten Edge Management Systeme proprietär. Das bedeutet, dass sie nur mit den Geräten des einen jeweiligen Herstellers vollständig kompatibel sind, weil sie nicht auf einheitlichen Standards aufsetzen. Dies stellt ein erhebliches Hindernis für die Flexibilität dar und erschwert die weitere Verbreitung von Edge-Geräten.
+
+Im [LNI4.0 Edge Management Testbed](https://lni40.de/angebot/testbeds/testbed-emt/) haben sich verschiedene Hersteller von Edge Management Lösungen zusammengeschlossen und entwickeln gemeinsam herstellerübergreifende Standard-Lösungen damit Edge-Geräte verschiedenen Hersteller nahtlos zusammenarbeiten können.
+
+## Business View
 https://lni40.de/wp-content/uploads/2023/02/BusinessView-LNI40TestbedEdgeManagement_published-V2.0.pdf
 
-# LNI4.0 Usage View
+## Usage View
 https://lni40.de/wp-content/uploads/2023/02/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
 
-# LNI4.0 Whitepaper Implementation Options
+## Whitepaper Implementation Options
 https://lni40.de/wp-content/uploads/2023/02/2022-05-11_WhitePaper-TestbedEdgeManagement-06_final.pdf
 
-# LNI4.0 Functional View
+## Testbed Edge Management - Demonstrator 
+https://lni40.de/wp-content/uploads/2023/04/LNI-4.0-Testbed-Edge-Management-Demonstrator.pdf
+
+## Functional View
 https://github.com/LNI40/Implementation-View/blob/main/FunctionalView-TestbedEdgeConfiguration_V8.4.pdf (Draft, not released yet.)
 
-# LNI4.0 Implementation View
-
+## Implementation View
 ![image](https://user-images.githubusercontent.com/50681355/154436133-46863aa5-661c-4008-aa35-6d871edc52ab.png)
 
-OpenAPI specification for an edge management REST API:
-The basic idea is to specify system interfaces between the entities within the edge architecture by analyzing the interactions in the Functional View document.
-Creating formal interface specifications using well-known standards like openAPI and asyncApi will allow automatic testcase creation and the use of a wide range of tools for the testbed.
-We do not want to re-invent the wheel: Participants may come forward with already existing solutions and we may adopt them as much as possible!
+## OpenAPI Spezification für eine Edge Management REST API
+Die Grundidee besteht darin, Systemschnittstellen zwischen den Einheiten innerhalb der Edge-Architektur zu spezifizieren, indem die Interaktionen im Dokument „Functional View“ analysiert werden.
+Die Erstellung formaler Schnittstellenspezifikationen unter Verwendung bekannter Standards wie openAPI und asyncApi ermöglicht die automatische Erstellung von Testfällen und den Einsatz einer breiten Palette von Werkzeugen für die Testumgebung. Wir wollen das Rad nicht neu erfinden: Teilnehmer können sich mit bereits existierenden Lösungen melden und wir können diese so weit wie möglich übernehmen!
 
 ![image](https://user-images.githubusercontent.com/50681355/154436060-e9fbaec2-91dc-4147-871c-0fe99572b62b.png)
 
-View current state in Swagger-Editor:
+Aktueller Stand der API:
 [http://editor.swagger.io/open?url=https://github.com/LNI40/Implementation-View/blob/main/OpenApi-Implementation-View.yml](https://editor.swagger.io/?url=https://raw.githubusercontent.com/LNI40/Implementation-View/main/OpenApi-Implementation-View.yml)
 
-## OpenAPI
-
-OpenAPI Specification (formerly Swagger Specification) is an API description format for REST APIs. An OpenAPI file allows you to describe your entire API, including:
-
-- Available endpoints (/users) and operations on each endpoint (GET /users, POST /users)
-- Operation parameters Input and output for each operation
-- Authentication methods
-- Contact information, license, terms of use and other information.
-
-API specifications can be written in YAML or JSON. The format is easy to learn and readable to both humans and machines. The complete OpenAPI Specification can be found on GitHub: OpenAPI 3.0 Specification
-
-(Source https://swagger.io/docs/specification/about/)
-
-
-### Tooling
-- Specification: https://swagger.io/docs/specification/basic-structure/
-- Online Editor: https://editor.swagger.io/
-- Offline Editor: [Visual Studio Code](#https://code.visualstudio.com/ ) + [OpenAPI (Swagger) Editor](#https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi) (recommended)
+## Weitere Veröffentlichungen
+- M. Rentschler, D. Rohrmus, U. Lowen, A. G. Gatterburg, B. Vojanec, and A. Willner, "*Standardization of Edge Configuration*", in 2020 25th IEEE International Conference on Emerging Technologies and Factory Automation (ETFA), Vienna, Austria. https://doi.org/10.1109/ETFA46521.2020.9212053
+- M. Rentschler, X-T. Dang, D. Rohrmus, A. G. Gatterburg,"*Edge-Management im Industrial Internet of Things*", in KommA 2024, Lemgo, Germany. https://jk-komma.de/index.php/programm
 
 ## Legal Disclaimer
 
-#### © Copyright 2022  Labs Network Industrie 4.0
+### © Copyright 2022  Labs Network Industrie 4.0
 This work is licenced under the Creative Commons Zero Licence (https://creativecommons.org/publicdomain/zero/1.0/deed.de)
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Specification.
