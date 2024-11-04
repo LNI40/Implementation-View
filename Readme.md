@@ -1,9 +1,12 @@
 
 # LNI4.0 Business View
-https://lni40.de/lni40-content/uploads/2021/03/BusinessView-LNI_Testbed-Edge-Management_V2.0.pdf
+https://lni40.de/wp-content/uploads/2023/02/BusinessView-LNI40TestbedEdgeManagement_published-V2.0.pdf
 
 # LNI4.0 Usage View
-http://lni40.de/lni40-content/uploads/2020/04/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
+https://lni40.de/wp-content/uploads/2023/02/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
+
+# LNI4.0 Whitepaper Implementation Options
+https://lni40.de/wp-content/uploads/2023/02/2022-05-11_WhitePaper-TestbedEdgeManagement-06_final.pdf
 
 # LNI4.0 Functional View
 https://github.com/LNI40/Implementation-View/blob/main/FunctionalView-TestbedEdgeConfiguration_V8.4.pdf (Draft, not released yet.)
