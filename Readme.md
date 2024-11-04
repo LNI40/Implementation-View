@@ -4,7 +4,7 @@ Industrie 4.0 verbindet die traditionelle Welt der Fertigung (OT) mit den Mögli
 
 Derzeit sind die meisten Edge Management Systeme proprietär. Das bedeutet, dass sie nur mit den Geräten des einen jeweiligen Herstellers vollständig kompatibel sind, weil sie nicht auf einheitlichen Standards aufsetzen. Dies stellt ein erhebliches Hindernis für die Flexibilität dar und erschwert die weitere Verbreitung von Edge-Geräten.
 
-Im [LNI4.0 Edge Management Testbed](https://lni40.de/angebot/testbeds/testbed-emt/) haben sich verschiedene Hersteller von Edge Management Lösungen zusammengeschlossen und entwickeln gemeinsam herstellerübergreifende Standard-Lösungen damit Edge-Geräte verschiedenen Hersteller nahtlos zusammenarbeiten können.
+Im [LNI4.0 Edge Management Testbed](https://lni40.de/angebot/testbeds/testbed-emt/) haben sich verschiedene Hersteller von Edge Management Lösungen zusammengeschlossen und entwickeln gemeinsam herstellerübergreifende Standard-Lösungen, damit Edge-Geräte verschiedenen Hersteller nahtlos zusammenarbeiten können.
 
 ## Business View
 https://lni40.de/wp-content/uploads/2023/02/BusinessView-LNI40TestbedEdgeManagement_published-V2.0.pdf
@@ -12,17 +12,20 @@ https://lni40.de/wp-content/uploads/2023/02/BusinessView-LNI40TestbedEdgeManagem
 ## Usage View
 https://lni40.de/wp-content/uploads/2023/02/UsageView-TestbedEdgeConfiguration_publish-10032020.pdf
 
-## Whitepaper Implementation Options
-https://lni40.de/wp-content/uploads/2023/02/2022-05-11_WhitePaper-TestbedEdgeManagement-06_final.pdf
-
-## Testbed Edge Management - Demonstrator 
-https://lni40.de/wp-content/uploads/2023/04/LNI-4.0-Testbed-Edge-Management-Demonstrator.pdf
-
 ## Functional View
 https://github.com/LNI40/Implementation-View/blob/main/FunctionalView-TestbedEdgeConfiguration_V8.4.pdf (Draft, not released yet.)
 
 ## Implementation View
 ![image](https://user-images.githubusercontent.com/50681355/154436133-46863aa5-661c-4008-aa35-6d871edc52ab.png)
+
+## Whitepaper Implementation Options
+https://lni40.de/wp-content/uploads/2023/02/2022-05-11_WhitePaper-TestbedEdgeManagement-06_final.pdf
+
+## Testbed Edge Management - Demonstrator 
+https://lni40.de/wp-content/uploads/2023/04/LNI-4.0-Testbed-Edge-Management-Demonstrator.pdf
+[Live-System](https://ca-ems-frontend-dev-001.yellowtree-6659c4fd.northeurope.azurecontainerapps.io/dashboard)   
+![image](https://github.com/user-attachments/assets/77933741-e446-4245-bdea-88e6dc914d1f)   
+![image](https://github.com/user-attachments/assets/0973598d-c343-4f83-af88-ac5355fcb92c)   
 
 ## OpenAPI Spezification für eine Edge Management REST API
 Die Grundidee besteht darin, Systemschnittstellen zwischen den Einheiten innerhalb der Edge-Architektur zu spezifizieren, indem die Interaktionen im Dokument „Functional View“ analysiert werden.
